@@ -4,21 +4,19 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
+const path = require('path'); // ✅ You need this
 
-// Create Express app
 const app = express();
 app.use(express.json());
 app.use(cors());
-// Serve static files (HTML, JS, CSS)
-// Correct folder path
-app.use(express.static('Project-Final222/Project'));
 
-const path = require('path');
+// Serve static files (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname, 'Project-Final222', 'Project')));
 
+//  Serve homepage fallback
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'Project-Final222', 'Project', 'Homepage.html'));
 });
-
 
 
 
