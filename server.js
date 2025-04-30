@@ -10,11 +10,13 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 // Serve static files (HTML, JS, CSS)
-app.use(express.static('Project-Final222'));
+// Correct folder path
+app.use(express.static('Project-Final222/Project'));
 
 app.get('*', (req, res) => {
-  res.sendFile(__dirname + '/Project-Final222/Homepage.html');
+  res.sendFile(__dirname + '/Project-Final222/Project/Homepage.html');
 });
+
 
 
 // MongoDB connection
