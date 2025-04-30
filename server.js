@@ -9,6 +9,8 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(express.static('Project-Final222'));
+
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://s202177910:Jh8fqzKEmGkA0frd@samra.9k24g4e.mongodb.net/?retryWrites=true&w=majority&appName=Samra', {
@@ -135,6 +137,12 @@ app.post('/forgot-password/reset', async (req, res) => {
     console.error('Reset Password Error:', error);
     res.status(500).json({ message: '❌ Server error.' });
   }
+});
+
+
+
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/Project/Homepage.html');
 });
 
 
