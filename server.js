@@ -13,9 +13,12 @@ app.use(cors());
 // Correct folder path
 app.use(express.static('Project-Final222/Project'));
 
+const path = require('path');
+
 app.get('*', (req, res) => {
-  res.sendFile(__dirname + '/Project-Final222/Project/Homepage.html');
+  res.sendFile(path.join(__dirname, 'Project-Final222', 'Project', 'Homepage.html'));
 });
+
 
 
 
