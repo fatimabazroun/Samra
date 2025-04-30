@@ -9,7 +9,12 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cors());
+// Serve static files (HTML, JS, CSS)
 app.use(express.static('Project-Final222'));
+
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/Project-Final222/Homepage.html');
+});
 
 
 // MongoDB connection
@@ -139,11 +144,6 @@ app.post('/forgot-password/reset', async (req, res) => {
   }
 });
 
-
-
-app.get('*', (req, res) => {
-  res.sendFile(__dirname + '/Project/Homepage.html');
-});
 
 
 
