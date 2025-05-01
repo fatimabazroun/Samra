@@ -577,6 +577,31 @@
     });
   </script>
 
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuItem = document.getElementById("storiesMenu");
+    const dropdown = document.getElementById("storiesDropdown");
+
+    // Only activate click toggle for touch devices
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      menuItem.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Toggle visibility
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+      });
+
+      // Close if clicked outside
+      document.addEventListener("click", function () {
+        dropdown.style.display = "none";
+      });
+    }
+  });
+</script>
+
+
 </body>
 
 </html>
