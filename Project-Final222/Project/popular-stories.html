@@ -214,28 +214,35 @@
     }
 
     .hidden {
-  display: none !important;
-}
+      display: none !important;
+    }
 
 
-#resetBtn {
-  padding: 0.4rem 1rem;
-  background: transparent;
-  color: #8b0000;
-  border: 2px solid #8b0000;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+    #resetBtn {
+      padding: 0.4rem 1rem;
+      background: transparent;
+      color: #8b0000;
+      border: 2px solid #8b0000;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
 
-#resetBtn:hover {
-  background-color: #8b0000;
-  color:  #000000;
-}
+    #resetBtn:hover {
+      background-color: #8b0000;
+      color: #000000;
+    }
 
 
+    .filter-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: flex-end;
+      margin-bottom: 1.5rem;
+    }
 
 
     @media (max-width: 768px) {
@@ -266,6 +273,17 @@
       .card {
         flex: 1 1 100%;
         max-width: 100%;
+      }
+
+      .filter-controls {
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+      }
+
+      .filter-controls .search-bar,
+      .filter-controls #resetBtn {
+        width: 100% !important;
       }
     }
 
@@ -411,65 +429,65 @@
   </footer>
 
   <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    const joinButtons = document.querySelectorAll(".join-btn");
+    document.addEventListener("DOMContentLoaded", () => {
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      const joinButtons = document.querySelectorAll(".join-btn");
 
-    joinButtons.forEach((btn) => {
-      btn.addEventListener("click", (event) => {
-        event.preventDefault(); // Stop <a> from opening
-        event.stopPropagation(); // Stop bubbling up to <a>
+      joinButtons.forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+          event.preventDefault(); // Stop <a> from opening
+          event.stopPropagation(); // Stop bubbling up to <a>
+
+          if (!isLoggedIn) {
+            alert("⚠️ You must log in to join an event.");
+            return;
+          }
+
+          btn.classList.toggle("joined");
+          btn.textContent = btn.classList.contains("joined") ? "Joined" : "Join";
+        });
 
         if (!isLoggedIn) {
-          alert("⚠️ You must log in to join an event.");
-          return;
+          btn.style.opacity = "0.4";
+          btn.style.cursor = "not-allowed";
+          btn.title = "You must log in to join.";
         }
-
-        btn.classList.toggle("joined");
-        btn.textContent = btn.classList.contains("joined") ? "Joined" : "Join";
       });
-
-      if (!isLoggedIn) {
-        btn.style.opacity = "0.4";
-        btn.style.cursor = "not-allowed";
-        btn.title = "You must log in to join.";
-      }
     });
-  });
 
 
     const searchInput = document.getElementById('searchInput');
     const filterType = document.getElementById('filterType');
     function filterCards() {
-  const searchText = searchInput.value.toLowerCase();
-  const selectedType = filterType.value;
-  const cardLinks = document.querySelectorAll('.cards .card-link'); // target the <a>
+      const searchText = searchInput.value.toLowerCase();
+      const selectedType = filterType.value;
+      const cardLinks = document.querySelectorAll('.cards .card-link'); // target the <a>
 
-  cardLinks.forEach(link => {
-    const card = link.querySelector('.card');
-    const title = card.querySelector('h4')?.textContent.toLowerCase() || '';
-    const category = card.querySelector('strong')?.textContent.toLowerCase() || '';
-    const isStory = card.getAttribute("data-type") === "story";
-    const isEvent = card.getAttribute("data-type") === "event";
+      cardLinks.forEach(link => {
+        const card = link.querySelector('.card');
+        const title = card.querySelector('h4')?.textContent.toLowerCase() || '';
+        const category = card.querySelector('strong')?.textContent.toLowerCase() || '';
+        const isStory = card.getAttribute("data-type") === "story";
+        const isEvent = card.getAttribute("data-type") === "event";
 
-    const matchesSearch = title.includes(searchText) || category.includes(searchText);
-    let matchesFilter = false;
+        const matchesSearch = title.includes(searchText) || category.includes(searchText);
+        let matchesFilter = false;
 
-    if (selectedType === 'all') matchesFilter = true;
-    else if (selectedType === 'stories' && isStory) matchesFilter = true;
-    else if (selectedType === 'events' && isEvent) matchesFilter = true;
+        if (selectedType === 'all') matchesFilter = true;
+        else if (selectedType === 'stories' && isStory) matchesFilter = true;
+        else if (selectedType === 'events' && isEvent) matchesFilter = true;
 
-    link.style.display = (matchesSearch && matchesFilter) ? 'block' : 'none';
-  });
-}
+        link.style.display = (matchesSearch && matchesFilter) ? 'block' : 'none';
+      });
+    }
 
 
-const resetBtn = document.getElementById('resetBtn');
-resetBtn.addEventListener('click', () => {
-  searchInput.value = '';
-  filterType.value = 'all';
-  filterCards(); // Reapply the filter logic with default values
-});
+    const resetBtn = document.getElementById('resetBtn');
+    resetBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      filterType.value = 'all';
+      filterCards(); // Reapply the filter logic with default values
+    });
 
 
 
@@ -478,26 +496,26 @@ resetBtn.addEventListener('click', () => {
 
 
     document.addEventListener("DOMContentLoaded", function () {
-        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-        const userRole = localStorage.getItem("userRole");
-        const fullName = localStorage.getItem("fullName") || "Creator"; // fallback
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      const userRole = localStorage.getItem("userRole");
+      const fullName = localStorage.getItem("fullName") || "Creator"; // fallback
 
-        // --- Update Header
-        if (isLoggedIn && userRole) {
-          const headerButtons = document.querySelector('header > div:last-child');
-          let dashboardLink = "#";
-          let roleName = "User";
+      // --- Update Header
+      if (isLoggedIn && userRole) {
+        const headerButtons = document.querySelector('header > div:last-child');
+        let dashboardLink = "#";
+        let roleName = "User";
 
-          if (userRole === "creator") {
-            dashboardLink = "creator-dashboard.html";
-            roleName = fullName;
-          }
-          else if (userRole === "admin") {
-            dashboardLink = "admin-dashboard.html";
-            roleName = fullName; // Admin doesn't need full name
-          }
+        if (userRole === "creator") {
+          dashboardLink = "creator-dashboard.html";
+          roleName = fullName;
+        }
+        else if (userRole === "admin") {
+          dashboardLink = "admin-dashboard.html";
+          roleName = fullName; // Admin doesn't need full name
+        }
 
-          headerButtons.innerHTML = `
+        headerButtons.innerHTML = `
         <span style="font-weight: bold; color: #8b0000;">Welcome, ${roleName}</span>
         <a href="${dashboardLink}" style="text-decoration: none;">
           <button class="login-btn" style="display: flex; align-items: center; gap: 0.4rem;">
@@ -506,7 +524,7 @@ resetBtn.addEventListener('click', () => {
         </a>
         <button class="login-btn" onclick="logout()">Log Out</button>
       `;
-        }
+      }
     });
 
     function logout() {
@@ -527,26 +545,26 @@ resetBtn.addEventListener('click', () => {
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-        const userRole = localStorage.getItem("userRole");
-        const fullName = localStorage.getItem("fullName") || "Creator"; // fallback
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      const userRole = localStorage.getItem("userRole");
+      const fullName = localStorage.getItem("fullName") || "Creator"; // fallback
 
-        // --- Update Header
-        if (isLoggedIn && userRole) {
-          const headerButtons = document.querySelector('header > div:last-child');
-          let dashboardLink = "#";
-          let roleName = "User";
+      // --- Update Header
+      if (isLoggedIn && userRole) {
+        const headerButtons = document.querySelector('header > div:last-child');
+        let dashboardLink = "#";
+        let roleName = "User";
 
-          if (userRole === "creator") {
-            dashboardLink = "creator-dashboard.html";
-            roleName = fullName;
-          }
-          else if (userRole === "admin") {
-            dashboardLink = "admin-dashboard.html";
-            roleName = fullName; // Admin doesn't need full name
-          }
+        if (userRole === "creator") {
+          dashboardLink = "creator-dashboard.html";
+          roleName = fullName;
+        }
+        else if (userRole === "admin") {
+          dashboardLink = "admin-dashboard.html";
+          roleName = fullName; // Admin doesn't need full name
+        }
 
-          headerButtons.innerHTML = `
+        headerButtons.innerHTML = `
         <span style="font-weight: bold; color: #8b0000;">Welcome, ${roleName}</span>
         <a href="${dashboardLink}" style="text-decoration: none;">
           <button class="login-btn" style="display: flex; align-items: center; gap: 0.4rem;">
@@ -555,7 +573,7 @@ resetBtn.addEventListener('click', () => {
         </a>
         <button class="login-btn" onclick="logout()">Log Out</button>
       `;
-        }
+      }
     });
   </script>
 
