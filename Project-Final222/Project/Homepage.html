@@ -436,7 +436,7 @@
           <li><a href="Map.html" style="text-decoration: none; color: inherit;">View Map</a></li>
           <li>
             Stories ▾
-            <ul class="dropdown">
+            <ul class="dropdown" id="storiesMenu">
               <li><a href="popular-stories.html">Popular Stories</a></li>
               <li><a href="riyadh-library.html">Riyadh Library</a></li>
               <li><a href="dhahran-library.html">ash sharqiyah Library</a></li>
@@ -819,6 +819,29 @@
         }
       }
     </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const storiesMenu = document.getElementById("storiesMenu");
+
+    // Only for touch/mobile devices
+    let isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    if (isTouch) {
+      storiesMenu.addEventListener("click", function (e) {
+        const dropdown = this.querySelector(".dropdown");
+        dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+        e.stopPropagation(); // Prevent clicking anywhere else from immediately closing it
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", function () {
+        const dropdown = storiesMenu.querySelector(".dropdown");
+        if (dropdown) dropdown.style.display = "none";
+      });
+    }
+  });
+</script>
 
 
 
