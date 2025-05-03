@@ -634,6 +634,36 @@
     }
   });
 </script>
+<script>
+  // جلب القصص من الـ API
+  function fetchStories() {
+    fetch('/popular-stories')
+      .then(response => response.json())
+      .then(stories => {
+        const container = document.getElementById('stories-container');
+        container.innerHTML = ''; // مسح المحتوى الحالي
+        
+        stories.forEach(story => {
+          const storyElement = document.createElement('div');
+          storyElement.classList.add('card');
+          storyElement.innerHTML = `
+            <h3>${story.storyTitle}</h3>
+            <p>By: ${story.writerName} | ${story.city}</p>
+            <p><strong>Type:</strong> ${story.storyType}</p>
+            <p>${story.content}</p>
+          `;
+          container.appendChild(storyElement);
+        });
+      })
+      .catch(error => {
+        alert('❌ Error fetching stories: ' + error);
+      });
+  }
+
+  // استدعاء الدالة لجلب القصص عند تحميل الصفحة
+  document.addEventListener('DOMContentLoaded', fetchStories);
+</script>
+
 
 
 </body>

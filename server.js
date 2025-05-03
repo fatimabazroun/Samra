@@ -1,7 +1,8 @@
 // server.js
-
+const multer = require('multer');
 const express = require('express');
 const mongoose = require('mongoose');
+const Story = require('./models/Story');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const path = require('path'); // ✅ You need this
@@ -10,8 +11,42 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+
+
+// Serve uploaded images statically
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
+// Multer storage config
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'images/');
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname);
+    const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
+    cb(null, uniqueName);
+  }
+});
+
+const upload = multer({ storage: storage });
+
+
+
 // Serve static files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, 'Project-Final222', 'Project')));
+
+
+
+app.use('/images', express.static('images')); // serve images publicly
+
+app.post('/upload', upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: '❌ No image uploaded.' });
+  }
+
+  const imageUrl = `/images/${req.file.filename}`;
+  res.status(200).json({ message: '✅ Image uploaded successfully!', imageUrl });
+});
 
 //  Serve homepage fallback
 app.get('*', (req, res) => {
@@ -147,7 +182,358 @@ app.post('/forgot-password/reset', async (req, res) => {
   }
 });
 
+// Create a new story
+app.post('/stories', async (req, res) => {
+  try {
+    const newStory = new Story(req.body);
+    await newStory.save();
+    res.status(201).json(newStory);
+  } catch (err) {
+    res.status(500).json({ message: '❌ Failed to create story.' });
+  }
+});
 
+// Get all stories
+app.get('/stories', async (req, res) => {
+  try {
+    const stories = await Story.find();
+    res.json(stories);
+  } catch (err) {
+    res.status(500).json({ message: '❌ Failed to fetch stories.' });
+  }
+});
+
+
+const storyRoutes = require('./routes/stories');
+app.use('/stories', storyRoutes);
+
+// Story Schema
+const storySchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  featuredImage: { type: String },
+  author: { 
+    name: { type: String, required: true },
+    title: { type: String },
+    avatar: { type: String }
+  },
+  publisher: { name: { type: String } },
+  genre: { type: String },
+  region: { type: String },
+  wordCount: { type: Number },
+  views: { type: Number, default: 0 },
+  likes: { type: Number, default: 0 },
+  likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  createdAt: { type: Date, default: Date.now }
+});
+
+//const Story = mongoose.model('Story', storySchema);
+
+// Comment Schema
+const commentSchema = new mongoose.Schema({
+  storyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Story', required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  userName: { type: String, required: true },
+  content: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const Comment = mongoose.model('Comment', commentSchema);
+
+// Follow Schema
+const followSchema = new mongoose.Schema({
+  followerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const Follow = mongoose.model('Follow', followSchema);
+
+// Get Story API
+app.get('/api/stories/:id', async (req, res) => {
+  try {
+    const story = await Story.findById(req.params.id);
+    if (!story) {
+      return res.status(404).json({ message: 'Story not found' });
+    }
+    
+    // Increment view count
+    story.views += 1;
+    await story.save();
+    
+    res.status(200).json(story);
+  } catch (error) {
+    console.error('Error fetching story:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get Comments API
+app.get('/api/comments/:storyId', async (req, res) => {
+  try {
+    const comments = await Comment.find({ storyId: req.params.storyId })
+      .sort({ createdAt: -1 })
+      .limit(50);
+    res.status(200).json(comments);
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Add Comment API
+app.post('/api/comments', async (req, res) => {
+  try {
+    const { storyId, content, userName } = req.body;
+    
+    if (!storyId || !content) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+    
+    const newComment = new Comment({
+      storyId,
+      content,
+      userName: userName || 'Anonymous'
+    });
+    
+    await newComment.save();
+    res.status(201).json(newComment);
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Toggle Like API
+app.post('/api/likes/toggle', async (req, res) => {
+  try {
+    const { storyId, userId } = req.body;
+    
+    if (!storyId) {
+      return res.status(400).json({ message: 'Missing storyId' });
+    }
+    
+    const story = await Story.findById(storyId);
+    if (!story) {
+      return res.status(404).json({ message: 'Story not found' });
+    }
+    
+    // Check if user already liked
+    const userIndex = story.likedBy.indexOf(userId);
+    if (userIndex === -1) {
+      // Add like
+      story.likes += 1;
+      story.likedBy.push(userId);
+    } else {
+      // Remove like
+      story.likes -= 1;
+      story.likedBy.splice(userIndex, 1);
+    }
+    
+    await story.save();
+    res.status(200).json({ newCount: story.likes });
+  } catch (error) {
+    console.error('Error toggling like:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Toggle Follow API
+app.post('/api/follow/toggle', async (req, res) => {
+  try {
+    const { followerId, authorId } = req.body;
+    
+    if (!followerId || !authorId) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+    
+    // Check if follow relationship exists
+    const existingFollow = await Follow.findOne({ followerId, authorId });
+    
+    if (existingFollow) {
+      // Unfollow
+      await Follow.deleteOne({ _id: existingFollow._id });
+      res.status(200).json({ isFollowing: false });
+    } else {
+      // Follow
+      const newFollow = new Follow({ followerId, authorId });
+      await newFollow.save();
+      res.status(200).json({ isFollowing: true });
+    }
+  } catch (error) {
+    console.error('Error toggling follow:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Check Follow Status API
+app.get('/api/follow/status', async (req, res) => {
+  try {
+    const { followerId, authorId } = req.query;
+    
+    if (!followerId || !authorId) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+    
+    const existingFollow = await Follow.findOne({ followerId, authorId });
+    res.status(200).json({ isFollowing: !!existingFollow });
+  } catch (error) {
+    console.error('Error checking follow status:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Creator Profile Schema
+const creatorSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
+  fullName: { type: String, required: true },
+  bio: { type: String },
+  region: { type: String },
+  specialty: { type: String },
+  interests: [String],
+  profileImage: { type: String },
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  followerCount: { type: Number, default: 0 }
+});
+
+const Creator = mongoose.model('Creator', creatorSchema);
+
+// Activity Log Schema
+const activitySchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  action: { type: String, required: true }, // "like", "comment", "follow"
+  targetType: { type: String }, // "story", "creator"
+  targetId: { type: mongoose.Schema.Types.ObjectId }, // ID of story/creator
+  createdAt: { type: Date, default: Date.now }
+});
+
+const Activity = mongoose.model('Activity', activitySchema);
+
+// Get Creator Profile
+app.get('/api/creators/:id', async (req, res) => {
+  try {
+    const creator = await Creator.findOne({ userId: req.params.id })
+      .populate('userId', 'email role');
+
+    if (!creator) {
+      return res.status(404).json({ message: 'Creator not found' });
+    }
+
+    // Get creator's stories
+    const stories = await Story.find({ 'author.id': creator.userId });
+
+    // Get recent activity
+    const activities = await Activity.find({ userId: creator.userId })
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    res.status(200).json({
+      profile: creator,
+      stories,
+      activities
+    });
+
+  } catch (error) {
+    console.error('Error fetching creator profile:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Update Creator Profile
+app.put('/api/creators/:id', async (req, res) => {
+  try {
+    const { bio, interests, specialty } = req.body;
+
+    const updatedCreator = await Creator.findOneAndUpdate(
+      { userId: req.params.id },
+      { $set: { bio, interests, specialty } },
+      { new: true }
+    );
+
+    res.status(200).json(updatedCreator);
+  } catch (error) {
+    console.error('Error updating creator profile:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get Creator's Stories
+app.get('/api/creators/:id/stories', async (req, res) => {
+  try {
+    const stories = await Story.find({ 'author.id': req.params.id });
+    res.status(200).json(stories);
+  } catch (error) {
+    console.error('Error fetching creator stories:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Follow/Unfollow Creator
+app.post('/api/creators/:id/follow', async (req, res) => {
+  try {
+    const creator = await Creator.findOne({ userId: req.params.id });
+    if (!creator) {
+      return res.status(404).json({ message: 'Creator not found' });
+    }
+
+    const { followerId } = req.body;
+    const isFollowing = creator.followers.includes(followerId);
+
+    if (isFollowing) {
+      // Unfollow
+      await Creator.updateOne(
+        { userId: req.params.id },
+        { 
+          $pull: { followers: followerId },
+          $inc: { followerCount: -1 } 
+        }
+      );
+    } else {
+      // Follow
+      await Creator.updateOne(
+        { userId: req.params.id },
+        { 
+          $addToSet: { followers: followerId },
+          $inc: { followerCount: 1 } 
+        }
+      );
+
+      // Log activity
+      const activity = new Activity({
+        userId: followerId,
+        action: 'follow',
+        targetType: 'creator',
+        targetId: req.params.id
+      });
+      await activity.save();
+    }
+
+    res.status(200).json({ 
+      isFollowing: !isFollowing,
+      followerCount: isFollowing ? creator.followerCount - 1 : creator.followerCount + 1
+    });
+
+  } catch (error) {
+    console.error('Error toggling follow:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Check Follow Status
+app.get('/api/creators/:id/follow-status', async (req, res) => {
+  try {
+    const { followerId } = req.query;
+    const creator = await Creator.findOne({ 
+      userId: req.params.id,
+      followers: followerId 
+    });
+
+    res.status(200).json({ isFollowing: !!creator });
+  } catch (error) {
+    console.error('Error checking follow status:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 
 // Start Server
