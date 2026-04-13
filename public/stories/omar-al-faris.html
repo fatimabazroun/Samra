@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="icon" type="image/png" href="../icon.png">
 
-    <title>Preserving Heritage Digitally</title>
+    <title>Seven Lost Pearlsof the Arabian Gulf</title>
     <style>
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 1rem;
-            } 
+            }
 
             nav ul {
                 flex-direction: column;
@@ -236,16 +236,21 @@
     color: #666;
 }
         
-        .author-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #eee;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
+.author-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Makes it circular */
+    overflow: hidden; /* Ensures the image stays within the circle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.author-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This ensures the image covers the space without distortion */
+}
         
         .author-name {
             font-weight: bold;
@@ -326,83 +331,76 @@
 <body>
     <header>
         <div style="display: flex; align-items: center; gap: 1rem;">
-            <a href="index.html"><img src="images/logo.jpg" alt="Samra Logo" class="logo"></a>
+            <a href="../index.html"><img src="../images/logo.jpg" alt="Samra Logo" class="logo"></a>
             <nav>
                 <ul class="nav-list">
-                    <li><a href="index.html">Home page</a></li>
-                    <li><a href="map.html">View Map</a></li>
+                    <li><a href="../index.html">Home page</a></li>
+                    <li><a href="../map.html">View Map</a></li>
                     <li tabindex="0">
                         Stories ▾
                         <ul class="dropdown">
-                            <li><a href="popular-stories.html">Popular Stories</a></li>
-                            <li><a href="riyadh-library.html">Riyadh Library</a></li>
-                            <li><a href="dhahran-library.html">ash sharqiyah Library</a></li>
+                            <li><a href="../popular-stories.html">Popular Stories</a></li>
+                            <li><a href="../riyadh-library.html">Riyadh Library</a></li>
+                            <li><a href="../dhahran-library.html">ash sharqiyah Library</a></li>
                         </ul>
                     </li>
                 </ul>
             </nav>
         </div>
         <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-            <a href="creator-login.html"><button class="login-btn">Log in As Creator</button></a>
-            <a href="admin-login.html"><button class="login-btn">Log in As Admin</button></a>
+            <a href="../creator-login.html"><button class="login-btn">Log in As Creator</button></a>
+            <a href="../admin-login.html"><button class="login-btn">Log in As Admin</button></a>
         </div>
     </header>
 
     <div class="content">
         <div class="story-header">
             <div class="story-image">
-                <img src="images/dhahran4.jpg" alt="Preserving Heritage Digitally">
+                <img src="../images/story2.jpg" alt="Arabian Gulf">
             </div>
             <div class="story-info">
-                <h1 class="story-title">Preserving Heritage Digitally</h1>
+                <h1 class="story-title">Seven Lost Pearls of the Arabian Gulf</h1>
                 
                 <div class="story-meta">
-                    <span>Written by: Mohammed Al-Sabah</span>
-                    <span>Published by: Zainab Al-Maimooni</span>
-                    <span>Genre: History</span>
-                    <span>Region of Origin: ash Sharqiyah</span>
-                    <span>Word Count: 1277</span>
+                    <span>Written by: Omar Al-Faris</span>
+                    <span>Published by: Yazeed Alghamdi</span>
+                    <span>Genre: Fiction</span>
+                    <span>Region of Origin: Riyadh</span>
+                    <span>Word Count: 504</span>
                 </div>
             </div>
         </div>
         
         <div class="story-content">
-            <p>Laern digital archiving practices. In today’s rapidly evolving world, the preservation of cultural heritage is more crucial than ever. The advancements in technology have given rise to new, innovative ways to safeguard the remnants of our past. One such method is digital archiving, a practice that has proven to be a game-changer for museums, libraries, archives, and various cultural institutions worldwide. Digital archiving, at its core, refers to the process of converting physical documents, artifacts, and other forms of cultural expression into digital formats, ensuring their long-term preservation and accessibility.
+            <p>Explore the magic of Saudi folklore as we uncover the legend of the Seven Lost Pearls of the Arabian Gulf. It is said that long ago, seven pearls of unimaginable beauty were gifted by the sea to a noble tribe that dwelled along the coast of what is now Saudi Arabia. These pearls were not merely treasures; they held the wisdom of the ocean, granting prosperity, protection, and harmony to those who possessed them.
                 
-                Cultural heritage, in the form of historical records, artworks, manuscripts, and traditional knowledge, holds immense value in shaping identities and understanding past societies. However, many of these treasures are vulnerable to the passage of time, physical deterioration, natural disasters, and other forms of damage. For centuries, traditional archival practices—such as the careful storage of documents in controlled environments—have been the main means of preserving cultural artifacts. While these methods have served their purpose, they often fall short when faced with the challenges of modern-day preservation. Physical archives are susceptible to risks such as fire, flooding, and mold, which could potentially erase invaluable historical records forever.
+                But greed and jealousy know no bounds. As rival tribes heard whispers of the pearls' power, war broke out, and one by one, the pearls were lost to time. Some say they were scattered across the land, hidden in places where only the worthy could find them. Others believe they sank to the depths of the Arabian Gulf, guarded by the spirits of the sea.
                 
-                Recognizing the need for a more reliable and scalable approach to heritage preservation, digital archiving has emerged as a transformative solution. By digitizing physical items, cultural institutions can not only protect them from physical harm but also make them more accessible to the public. A digitized archive can be accessed remotely, allowing people from all over the world to view and study these materials without the risk of damaging the original pieces. This is especially beneficial for rare and delicate documents, as well as artifacts that are difficult to transport or display due to their size, fragility, or cultural significance.
+                Centuries passed, and the tale faded into legend. Until now.
                 
-                One of the key advantages of digital archiving is the ability to preserve the integrity of materials over time. Digital files do not degrade like paper, ink, or film, and they can be easily copied and stored in multiple locations, ensuring that the information remains safe even if one copy is lost or damaged. Furthermore, digital files can be backed up and stored in secure, climate-controlled environments, far removed from the dangers faced by traditional archival materials.
+                Ali, a young historian from Jeddah, had spent years studying ancient manuscripts, searching for any mention of the pearls. When an old sailor, known only as Abu Saqr, claimed to have seen a pearl glowing beneath the waves during a stormy night, Ali knew his journey was about to begin.
                 
-                However, the process of digital archiving is not without its challenges. First, the technology required to create and store digital archives can be expensive, especially when dealing with large volumes of materials. High-quality scanners, digitization software, and secure storage solutions are essential components of the process, and the costs associated with these tools can be prohibitive for smaller institutions or those with limited funding. Additionally, the preservation of digital files itself requires ongoing attention. Digital formats and storage media can become obsolete, and maintaining access to these files requires regular updates to software and hardware.
+                Guided by cryptic verses and the wisdom of the elders, Ali set sail across the Gulf, tracing the lost pearls through hidden caves, forgotten temples, and abandoned shipwrecks. Along the way, he encountered guardians of the past—an old pearl diver who spoke in riddles, a desert mystic who claimed to have once held a pearl in his hands, and a fisherman whose net once caught something that should have never been disturbed.
                 
-                Another challenge lies in ensuring that the digitization process accurately captures the essence and details of the original materials. This requires skilled technicians and specialists who understand both the technological and historical significance of the items being digitized. It is essential that the digitization process does not alter or distort the information, as even small inaccuracies can have profound consequences for researchers and future generations.
+                Each clue led him closer to the truth, but also deeper into danger. For those who sought the pearls for their own gain were not far behind. A secretive group, known as the Brotherhood of the Tide, had sworn to keep the pearls hidden forever, believing their power was too great for any mortal to wield.
                 
-                Despite these challenges, the benefits of digital archiving far outweigh the obstacles. Many cultural institutions have embraced digital archiving as a means of safeguarding their collections. The British Library, for example, has embarked on an ambitious project to digitize thousands of rare books, manuscripts, and maps, making them available to the public through their online archive. Similarly, the Smithsonian Institution in the United States has digitized a vast collection of artifacts and artworks, creating a digital archive that is accessible to people worldwide.
+                As Ali uncovered the first pearl, nestled within the ruins of a sunken palace, he felt a pulse of energy course through him. It was as if the sea itself had awakened. The air grew heavy, and the waves roared as if warning him of the trials ahead.
                 
-                In addition to preserving physical artifacts, digital archiving also plays a vital role in documenting intangible cultural heritage, such as oral traditions, languages, and rituals. Many indigenous communities around the world have turned to digital technology to record their languages, stories, and customs, which may otherwise be at risk of disappearing. Through digital archiving, these communities can ensure that their cultural heritage is preserved for future generations, while also sharing it with the global community.
+                With each pearl he retrieved, visions of the past flooded his mind—the betrayal that led to the pearls' scattering, the battles fought over them, and the final vow of the last guardian to ensure they would never be reunited.
                 
-                Moreover, digital archives provide opportunities for collaboration and cross-cultural exchange. Scholars, researchers, and historians can access a wealth of primary source materials from different parts of the world, enabling them to conduct more comprehensive studies and build connections between cultures. Digital platforms also allow for the integration of multimedia elements, such as audio, video, and interactive tools, enriching the research experience and providing a deeper understanding of cultural contexts.
+                But Ali could not stop now. The final pearl, the most powerful of all, was said to rest in the heart of an island that did not appear on any map. With nothing but the stars to guide him, he sailed into the unknown, knowing that the fate of the legend—and perhaps his own—hung in the balance.
                 
-                For individuals interested in learning more about digital archiving, there are various educational resources and programs available. Institutions such as the Digital Preservation Coalition and the International Federation of Library Associations and Institutions offer workshops, webinars, and training sessions on best practices for digital preservation. These programs cover topics such as metadata standards, file formats, digital storage solutions, and legal considerations, equipping participants with the knowledge and skills needed to manage digital archives effectively.
+                The Seven Lost Pearls of the Arabian Gulf were more than relics of history. They were the essence of a time long forgotten, waiting for the right soul to uncover their true purpose. And as Ali reached the final destination, the question remained—would he restore their legacy, or would he, too, become another lost tale in the whispers of the ocean?
                 
-                Furthermore, universities and research institutions are increasingly offering specialized courses in digital preservation, archiving, and heritage management. These programs often focus on the intersection of technology and cultural heritage, preparing students to work in the growing field of digital archiving. By gaining expertise in both digital technologies and archival practices, graduates can contribute to the development of sustainable digital preservation strategies for museums, libraries, and archives around the world.
+                The wind howled, the tide swelled, and the answer lay just beyond the horizon.
                 
-                In addition to formal education, there are also a number of online resources and communities dedicated to digital archiving. These include open-access databases, forums, and collaborative platforms where professionals and enthusiasts can share ideas, tools, and techniques for digitizing and preserving cultural heritage. By participating in these communities, individuals can stay up-to-date with the latest trends and innovations in digital archiving and contribute to the broader movement of preserving heritage digitally.
-                
-                As we look to the future, the role of digital archiving in preserving cultural heritage will only continue to grow in importance. The ongoing development of new technologies, such as artificial intelligence, machine learning, and blockchain, will likely offer even more sophisticated methods for managing and securing digital archives. These innovations may also make the digitization process faster, more cost-effective, and more accessible to a wider range of institutions and communities.
-                
-                Moreover, the global nature of the internet and digital technologies offers a unique opportunity to democratize access to cultural heritage. With the click of a button, anyone, anywhere, can explore the digitized treasures of the world’s museums and libraries. This can foster greater appreciation for cultural diversity, enhance education, and promote the preservation of humanity’s collective memory.
-                
-                In conclusion, digital archiving is a vital practice in the preservation of cultural heritage, offering an effective solution to the challenges posed by traditional methods. By digitizing artifacts and historical records, we not only protect them from the ravages of time and disaster but also ensure that they remain accessible to future generations. The practice is still evolving, but with the growing availability of resources, education, and technology, we are well on our way to securing a digitally preserved legacy for generations to come. Through digital archiving, we are not merely preserving artifacts—we are safeguarding stories, identities, and the rich tapestry of human history for future generations to explore, appreciate, and learn from.
-            </p>       
+            </p>                
         </div>
        
         
         <div class="stats">
-          <div class="stat-item">👁️ Views: <span id="viewsCount">1678</span></div>
-          <div class="stat-item"><span id="likeIcon" onclick="toggleLike()" style="cursor: pointer;">❤️</span> Likes: <span id="likeCount">787</span></div>
+          <div class="stat-item">👁️ Views: <span id="viewsCount">98</span></div>
+          <div class="stat-item"><span id="likeIcon" onclick="toggleLike()" style="cursor: pointer;">❤️</span> Likes: <span id="likeCount">25</span></div>
           <div class="stat-item"><span class="icon" onclick="sharePage()" style="cursor: pointer;">📤</span></div>
         </div>
         
@@ -414,22 +412,22 @@
         </div>
 
         <div class="author">
-            <div class="author-img">
-                <span>📧</span>
-            </div>
-            <div class="author-info">
-              <div class="author-name">
-                  Mohammed Al-Sabah
-                  <span id="followButton" style="margin-left: 10px; cursor: pointer; font-size: 18px;">
-                      ➕ Follow
-                  </span>
-              </div>
-              <div class="author-title">Archivist</div>
+          <div class="author-img">
+            <img src="../images/OmarAl-Faris.png" alt="Omar Al-Faris" onerror="this.src='fallback.jpg'">
+        </div>
+        <div class="author-info">
+          <div class="author-name">
+              Noura Al-Salem
+              <span id="followButton" style="margin-left: 10px; cursor: pointer; font-size: 18px;">
+                  ➕ Follow
+              </span>
           </div>
-          
+          <div class="author-title">Chef</div>
+      </div>
+      
         </div>
         
-        
+       
     
     </div>
 
@@ -447,9 +445,9 @@
         <div style="flex: 1 1 150px;">
           <h4 style="color: #facc15;">Libraries</h4>
           <ul style="list-style: none; padding: 0;">
-            <li><a href="riyadh-library.html" style="color: white; text-decoration: none;">Riyadh</a></li>
-            <li><a href="dhahran-library.html" style="color: white; text-decoration: none;">Ash Sharqiyah</a></li>
-            <li><a href="popular-stories.html" style="color: white; text-decoration: none;">Popular Stories</a></li>
+            <li><a href="../riyadh-library.html" style="color: white; text-decoration: none;">Riyadh</a></li>
+            <li><a href="../dhahran-library.html" style="color: white; text-decoration: none;">Ash Sharqiyah</a></li>
+            <li><a href="../popular-stories.html" style="color: white; text-decoration: none;">Popular Stories</a></li>
           </ul>
         </div>
     
@@ -457,9 +455,9 @@
         <div style="flex: 1 1 150px;">
           <h4 style="color: #facc15;">Useful Links</h4>
           <ul style="list-style: none; padding: 0;">
-            <li><a href="map.html" style="color: white; text-decoration: none;">View Map</a></li>
-            <li><a href="creator-login.html" style="color: white; text-decoration: none;">Creator Login</a></li>
-            <li><a href="admin-login.html" style="color: white; text-decoration: none;">Admin Login</a></li>
+            <li><a href="../map.html" style="color: white; text-decoration: none;">View Map</a></li>
+            <li><a href="../creator-login.html" style="color: white; text-decoration: none;">Creator Login</a></li>
+            <li><a href="../admin-login.html" style="color: white; text-decoration: none;">Admin Login</a></li>
           </ul>
         </div>
     
@@ -477,6 +475,7 @@
       </div>
     </footer>
     
+  
   <!-- JavaScript -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -533,35 +532,22 @@
     });
 
     document.addEventListener("DOMContentLoaded", function () {
-        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-        const userRole = localStorage.getItem("userRole");
-        const fullName = localStorage.getItem("fullName") || "Creator"; // fallback
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const userRole = localStorage.getItem("userRole");
 
-        // --- Update Header
-        if (isLoggedIn && userRole) {
-          const headerButtons = document.querySelector('header > div:last-child');
-          let dashboardLink = "#";
-          let roleName = "User";
+  if (isLoggedIn && userRole === "creator") {
+    const headerButtons = document.querySelector('header > div:last-child');
+    headerButtons.innerHTML = `
+      <span style="font-weight: bold; color: #8b0000;">Welcome, Creator</span>
+  <a href="../creator-dashboard.html" style="text-decoration: none;">
+    <button class="login-btn" style="display: flex; align-items: center; gap: 0.4rem;">
+      <span style="font-size: 1.1rem;">👤</span> My Account
+    </button>
+  </a>
+  <button class="login-btn" onclick="logout()">Log Out</button>
+`;
+  }
 
-          if (userRole === "creator") {
-            dashboardLink = "creator-dashboard.html";
-            roleName = fullName;
-          }
-          else if (userRole === "admin") {
-            dashboardLink = "admin-dashboard.html";
-            roleName = fullName; // Admin doesn't need full name
-          }
-
-          headerButtons.innerHTML = `
-        <span style="font-weight: bold; color: #8b0000;">Welcome, ${roleName}</span>
-        <a href="${dashboardLink}" style="text-decoration: none;">
-          <button class="login-btn" style="display: flex; align-items: center; gap: 0.4rem;">
-            <span style="font-size: 1.1rem;">👤</span> My Account
-          </button>
-        </a>
-        <button class="login-btn" onclick="logout()">Log Out</button>
-      `;
-        }
 
 
   
@@ -640,7 +626,6 @@ document.addEventListener("DOMContentLoaded", function () {
         <button class="login-btn" onclick="logout()">Log Out</button>
       `;
         }
-
   });
     </script>
         <script src="main.js"></script>

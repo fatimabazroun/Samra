@@ -36,10 +36,15 @@ Samra/
 │   ├── creator-dashboard.html
 │   ├── admin-login.html
 │   ├── start-write.html
+│   ├── forgot-password.html
 │   ├── stories-data.js        # Central data store (all stories/events)
 │   ├── shared.js              # Reusable header, footer, card builder
 │   ├── main.js                # Story page interactions (likes, comments)
-│   └── images/                # All image assets
+│   ├── images/                # All image assets
+│   └── stories/               # Individual story & event pages
+│       ├── ahmed-al-khobar.html
+│       ├── aisha-almutairi.html
+│       └── ...
 ├── models/
 │   └── Story.js               # Mongoose story schema
 ├── routes/

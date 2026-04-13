@@ -29,7 +29,7 @@ const SAMRA_STORIES = [
     wordCount: 1500,
     views: 3798,
     likes: 687,
-    url: "ahmed-al-khobar.html"
+    url: "stories/ahmed-al-khobar.html"
   },
   {
     id: "reem-al-najjar",
@@ -48,7 +48,7 @@ const SAMRA_STORIES = [
     wordCount: 900,
     views: 2154,
     likes: 412,
-    url: "reem-al-najjar.html"
+    url: "stories/reem-al-najjar.html"
   },
   {
     id: "omar-al-faris",
@@ -68,7 +68,7 @@ const SAMRA_STORIES = [
     wordCount: 1640,
     views: 5210,
     likes: 934,
-    url: "omar-al-faris.html"
+    url: "stories/omar-al-faris.html"
   },
   {
     id: "khaled-mubarak",
@@ -87,7 +87,7 @@ const SAMRA_STORIES = [
     wordCount: 1722,
     views: 4401,
     likes: 798,
-    url: "khaled-mubarak.html"
+    url: "stories/khaled-mubarak.html"
   },
   {
     id: "amal-al-faris",
@@ -107,7 +107,7 @@ const SAMRA_STORIES = [
     wordCount: 1890,
     views: 3967,
     likes: 611,
-    url: "amal-al-faris.html"
+    url: "stories/amal-al-faris.html"
   },
   {
     id: "aisha-almutairi",
@@ -127,7 +127,7 @@ const SAMRA_STORIES = [
     wordCount: 1532,
     views: 2889,
     likes: 503,
-    url: "aisha-almutairi.html"
+    url: "stories/aisha-almutairi.html"
   },
 
   // ─── RIYADH LIBRARY ONLY ────────────────────────────────────────────────────
@@ -148,7 +148,7 @@ const SAMRA_STORIES = [
     wordCount: 1300,
     views: 1870,
     likes: 289,
-    url: "layla-al-najdi.html"
+    url: "stories/layla-al-najdi.html"
   },
   {
     id: "faisal-al-turki",
@@ -167,7 +167,7 @@ const SAMRA_STORIES = [
     wordCount: 2100,
     views: 3100,
     likes: 540,
-    url: "faisal-al-turki.html"
+    url: "stories/faisal-al-turki.html"
   },
   {
     id: "reem-al-riyadhi",
@@ -186,7 +186,7 @@ const SAMRA_STORIES = [
     wordCount: 980,
     views: 1560,
     likes: 220,
-    url: "reem-al-riyadhi.html"
+    url: "stories/reem-al-riyadhi.html"
   },
   {
     id: "omar-al-saif",
@@ -205,7 +205,7 @@ const SAMRA_STORIES = [
     wordCount: 1150,
     views: 2200,
     likes: 374,
-    url: "omar-al-saif.html"
+    url: "stories/omar-al-saif.html"
   },
 
   // ─── HOMEPAGE ONLY (PAGE 2) ──────────────────────────────────────────────────
@@ -227,7 +227,7 @@ const SAMRA_STORIES = [
     wordCount: 1400,
     views: 2780,
     likes: 461,
-    url: "salem-al-ghamdi.html"
+    url: "stories/salem-al-ghamdi.html"
   },
   {
     id: "laila-al-harbi",
@@ -247,7 +247,7 @@ const SAMRA_STORIES = [
     wordCount: 800,
     views: 1990,
     likes: 335,
-    url: "laila-al-harbi.html"
+    url: "stories/laila-al-harbi.html"
   },
   {
     id: "rashid-al-qahtani",
@@ -267,7 +267,7 @@ const SAMRA_STORIES = [
     wordCount: 1680,
     views: 3450,
     likes: 609,
-    url: "rashid-al-qahtani.html"
+    url: "stories/rashid-al-qahtani.html"
   },
   {
     id: "noura-al-salem",
@@ -287,7 +287,7 @@ const SAMRA_STORIES = [
     wordCount: 1050,
     views: 2310,
     likes: 418,
-    url: "noura-al-salem.html"
+    url: "stories/noura-al-salem.html"
   },
 
   // ─── DHAHRAN LIBRARY ────────────────────────────────────────────────────────
@@ -308,7 +308,7 @@ const SAMRA_STORIES = [
     wordCount: 1350,
     views: 2100,
     likes: 388,
-    url: "noura-al-dharani.html"
+    url: "stories/noura-al-dharani.html"
   },
   {
     id: "ali-al-hasa",
@@ -327,7 +327,7 @@ const SAMRA_STORIES = [
     wordCount: 700,
     views: 1450,
     likes: 210,
-    url: "ali-al-hasa.html"
+    url: "stories/ali-al-hasa.html"
   },
   {
     id: "layla-al-ahsa",
@@ -346,7 +346,7 @@ const SAMRA_STORIES = [
     wordCount: 2400,
     views: 4800,
     likes: 872,
-    url: "layla-al-ahsa.html"
+    url: "stories/layla-al-ahsa.html"
   },
   {
     id: "mohammed-al-sabah",
@@ -365,7 +365,7 @@ const SAMRA_STORIES = [
     wordCount: 1600,
     views: 2670,
     likes: 445,
-    url: "mohammed-al-sabah.html"
+    url: "stories/mohammed-al-sabah.html"
   },
   {
     id: "huda-al-khobar",
@@ -384,7 +384,7 @@ const SAMRA_STORIES = [
     wordCount: 1100,
     views: 1900,
     likes: 310,
-    url: "huda-al-khobar.html"
+    url: "stories/huda-al-khobar.html"
   },
   {
     id: "faisal-al-hasa",
@@ -403,7 +403,7 @@ const SAMRA_STORIES = [
     wordCount: 1780,
     views: 3200,
     likes: 590,
-    url: "faisal-al-hasa.html"
+    url: "stories/faisal-al-hasa.html"
   },
   {
     id: "salma-al-jubail",
@@ -422,7 +422,7 @@ const SAMRA_STORIES = [
     wordCount: 1420,
     views: 2560,
     likes: 430,
-    url: "salma-al-jubail.html"
+    url: "stories/salma-al-jubail.html"
   },
   {
     id: "sultan-al-raka",
@@ -441,7 +441,7 @@ const SAMRA_STORIES = [
     wordCount: 1950,
     views: 3700,
     likes: 680,
-    url: "sultan-al-raka.html"
+    url: "stories/sultan-al-raka.html"
   }
 ];
 
