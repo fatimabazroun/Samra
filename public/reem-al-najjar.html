@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="icon.png">
+
+    <title>Folklore & Music Under the Stars</title>
+    <style>
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .login-btn {
+                width: 100%;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            footer {
+                padding: 1rem;
+            }
+            
+            .story-header {
+                flex-direction: column;
+            }
+            
+            .story-image {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 5/7;
+            }
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #fdf8f3;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e0c6b5;
+        }
+        
+        .logo {
+            height: 40px;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav ul li {
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: black;
+        }
+        
+        nav ul li:hover, nav ul li:hover > a {
+            color: #8b0000;
+        }
+        
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #ccc;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: none;
+            min-width: 150px;
+            z-index: 1000;
+        }
+        
+        .nav-list li:hover .dropdown {
+            display: block;
+        }
+        
+        .dropdown li {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .dropdown li:hover {
+            background-color: #f7f7f7;
+            color: #8b0000;
+        }
+
+        .login-btn {
+            padding: 0.4rem 1rem;
+            border: 2px solid #8b0000;
+            background: white;
+            color: #8b0000;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #8b0000;
+            color: white;
+        }
+        
+        .content {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .story-header {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+        
+        .story-image {
+            width: 250px;
+            height: 350px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .story-info {
+            flex: 1;
+        }
+        
+        .story-title {
+            font-size: 28px;
+            margin: 0 0 20px 0;
+            color: #222;
+        }
+        
+        .story-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .story-content {
+            line-height: 1.6;
+            margin-bottom: 25px;
+            padding-top: 15px;
+        }
+        
+        .read-btn {
+            background-color: #8e44ad;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            display: block;
+            width: 150px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        
+        .read-btn:hover {
+            background-color: #7d3c98;
+        }
+        
+        .stats {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.stat-item {
+    display: block;
+}
+        
+        .author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.author-title {
+    font-size: 0.8em;
+    font-weight: normal;
+    color: #666;
+}
+        
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .author-name {
+            font-weight: bold;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .share-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .icon {
+            width: 24px;
+            height: 24px;
+            background-color: #eee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .icon:hover {
+            background-color: #ddd;
+        }
+        
+        .comments {
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        
+        .comment {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .comment-user {
+            font-weight: bold;
+        }
+        
+        .comment-time {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        footer {
+            background-color: #562e39;
+            color: white;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .footer-text {
+            text-align: center;
+            flex: 1 1 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .socials span {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <a href="index.html"><img src="images/logo.jpg" alt="Samra Logo" class="logo"></a>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="index.html">Home page</a></li>
+                    <li><a href="map.html">View Map</a></li>
+                    <li tabindex="0">
+                        Stories ▾
+                        <ul class="dropdown">
+                            <li><a href="popular-stories.html">Popular Stories</a></li>
+                            <li><a href="riyadh-library.html">Riyadh Library</a></li>
+                            <li><a href="dhahran-library.html">ash sharqiyah Library</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <a href="creator-login.html"><button class="login-btn">Log in As Creator</button></a>
+            <a href="admin-login.html"><button class="login-btn">Log in As Admin</button></a>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="story-header">
+            <div class="story-image">
+                <img src="images/event2.jpg" alt="Folklore & Music Under the Stars">
+            </div>
+            <div class="story-info">
+                <h1 class="story-title">Folklore & Music Under the Stars</h1>
+                
+                <div class="story-meta">
+                    <span>Written by: Sultan Al-Raka</span>
+                    <span>Published by: Kamal Al-Sharji</span>
+                    <span>Genre: Community Night</span>
+                    <span>Region of Origin: ash Sharqiyah</span>
+                    <span>Word Count: 1231</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="story-content">
+            <p> In the heart of Ash Sharqiyah, a region steeped in rich history and tradition, there was a town that came alive when the sun dipped below the horizon. The town, with its wind-swept dunes and serene coastline along the Arabian Gulf, had long been a place where folklore and music thrived. It was here that the sounds of the oud, the delicate rhythms of the darbuka, and the enchanting voice of a skilled singer filled the air during the cooler nights, drawing the community together in celebration.
+
+                The people of Ash Sharqiyah, particularly in the coastal town of Al Khobar, had always cherished their roots. The tales of their ancestors, passed down through generations, spoke of a time when the desert was a vast expanse, and the sea a mystic force that guided the paths of traders and travelers. They spoke of the Bedouin who roamed the dunes, their tents pitching under the vast starry skies, and of the pearl divers whose hearts beat in rhythm with the waves, braving the deep blue for the treasures hidden beneath.
+                
+                One such night, in the small village of Qatif, a celebration was planned to honor these traditions. The elders spoke of it as a time to remember their heritage, and the youth saw it as a moment to connect with the past, understand their identity, and have a little fun in the process. The event was named "Folklore & Music Under the Stars," a gathering that would blend the old with the new, where melodies from the past would echo through the night alongside contemporary beats that reflected the vibrant culture of the region.
+                
+                The evening began as the sun set, casting its golden light across the sand dunes and the shimmering coastline. The warm breeze carried the scent of the sea, and the sky transformed into a deep, velvety canvas dotted with twinkling stars. Families gathered in an open-air venue surrounded by traditional tents, draped with colorful fabrics. Low cushions were scattered on the ground, and lanterns swayed gently in the breeze, casting a soft glow on the gathering.
+                
+                The event was centered around a stage that had been set up near the shore, where a mix of musicians, poets, and storytellers were ready to share their art with the community. The smell of grilled kabsa and traditional lamb roasted on spits filled the air, making the evening even more inviting. The young and old alike sat together, sharing plates of food and stories from days long past.
+                
+                At the center of it all was the music. The sound of the oud reverberated through the crowd as an elderly man, known as Abu Jassim, took his place on the stage. His hands, gnarled with age but steady with experience, strummed the strings of the instrument, filling the space with melodies that resonated deeply within the hearts of those who listened. His eyes twinkled with the same mischievous spark they had when he was a young man, and his voice, though aged, still carried the weight of stories.
+                
+                “I was just a boy when I first learned to play the oud,” Abu Jassim began, his voice carrying across the crowd. “My father taught me, under the stars just like tonight. He said, ‘Son, the music of our people is like the sea. It ebbs and flows, but it will always return.’ And here we are, generations later, still telling our stories through these melodies.”
+                
+                His words were met with applause, and as he began to play a traditional melody, the crowd fell into a peaceful silence, listening to the soothing strings that echoed the rhythms of the waves crashing against the shore. His music, a blend of classical and folk influences, felt timeless—rooted in the past but speaking to the present.
+                
+                As the night wore on, the focus shifted to the poetry of the region. In Ash Sharqiyah, poetry was more than just words; it was the lifeblood of culture. Young and old poets, many of whom had learned their craft from the elders, took turns sharing their work. They recited verses that reflected the beauty of the land, the hardship of the desert, and the deep connection to the sea. The words were soft, like a breeze that carried the scents of the earth, yet they held the strength of the dunes themselves.
+                
+                One poet, a young woman named Layla, took the stage with a quiet confidence. Her flowing abaya danced with the wind as she approached the microphone. She had grown up hearing the poems of her father, a respected poet in the town, and now, she was ready to share her own.
+                
+                “From the depths of the desert, I rise,” Layla began, her voice steady. “I carry the stories of my ancestors, of the women who walked these sands, strong and unyielding. I sing for the sea, for the pearls we once dove for, and for the stars that guide us, even now.”
+                
+                Her words hung in the air, stirring something deep in the hearts of the listeners. The crowd was mesmerized, caught between the beauty of her verses and the ancient stories of the land that she brought to life.
+                
+                But the night wasn’t just about reminiscing or honoring the past. It was also about celebrating the present and the future. As the evening progressed, the music shifted. The beat of the darbuka echoed through the crowd, fast and rhythmic, drawing people to their feet. A modern band, featuring younger musicians from Al Khobar, took the stage, blending traditional instruments with electric guitars and synthesizers. The fusion of the old and new was electrifying, a vibrant celebration of Saudi Arabia’s cultural transformation.
+                
+                The crowd couldn’t help but dance. The traditional movements of the folk dance known as the Ardah took over the gathering as people joined hands and swayed to the rhythm. The energy was contagious, and soon the area was filled with laughter, music, and the joyful sounds of people expressing their collective identity.
+                
+                For many, this was a rare moment—a fusion of old and new, where tradition was not only honored but celebrated. The young people of Ash Sharqiyah were learning that their heritage was something they could carry with them into the future, a living, breathing part of who they were. And for the elders, the night was a reminder that their culture had not been forgotten—it was being carried forward, reimagined by the hands of the next generation.
+                
+                As the night came to an end, the stars above sparkled even brighter. The music and laughter slowly faded, but the memories of the evening lingered in the hearts of those who had come together. There was a sense of fulfillment in the air, a feeling that the stories of Ash Sharqiyah’s past would never fade, that the songs of the desert and the sea would always be heard, and that, under the stars, the people of the region would continue to celebrate their identity.
+                
+                The last song played, a soft, melodic tune that blended the oud with the sounds of the ocean breeze. And as the final note faded into the night, it was clear: the folklore of Ash Sharqiyah was alive, carried forward by the music, the poetry, and the spirit of the people who lived there.
+                
+                And as long as the stars remained above the sands, the tales of Ash Sharqiyah would continue to be shared—forever under the stars, forever intertwined with the land, the sea, and the heart of its people.As the night deepened, the crowd slowly began to disperse, but the spirit of the evening lingered, as if the music and stories had woven themselves into the fabric of the town. The light from the lanterns flickered gently in the breeze, casting soft shadows on the sand. For many, the memories of this night would be carried in their hearts for years to come, reminders of the beauty of tradition, the power of music, and the deep sense of connection that bound them together.
+
+                Layla, the young poet, stood by the edge of the gathering, watching as the last few people left the venue. Her father, who had been one of the first to arrive that evening, now walked toward her with a smile on his face, his eyes glowing with pride. He had watched his daughter grow into a poet and artist, and tonight, she had captured the essence of their heritage in ways that only the most skilled could do.
+                
+                “You were magnificent,” her father said, his voice full of admiration. “Your words will echo for generations.”
+                
+                Layla smiled, her heart full of gratitude. “Thank you, Baba. But it’s the stories of our people, the land, and the sea that inspire me. I’m only a vessel for them.”
+                
+                Her father nodded, understanding the humility in her words. “Yes, the past is always with us, shaping who we are. But remember, it’s also your voice, your unique way of seeing the world, that keeps our heritage alive. You are making it your own, and that is something beautiful.”
+                
+                As they walked together toward their home in the heart of Qatif, the streets of the town were quiet, but the sounds of the evening still echoed in their minds. The rhythm of the music, the verses of poetry, and the laughter of people coming together to celebrate their shared history—all of it was part of something greater than any one individual.
+                
+                Meanwhile, on the other side of the region, in Al Khobar, the fusion of tradition and modernity was continuing in more subtle ways. Young musicians and artists, inspired by the events of the evening, gathered in small cafes and intimate venues to experiment with their own blend of Saudi music. The oud was no longer just an instrument of the past, but one that was being reimagined with electronic beats, jazz influences, and even contemporary pop sounds. This new wave of creativity was not just about modernization for the sake of it, but about honoring their roots while embracing the future.
+                
+                In a small café in Al Khobar, a group of young musicians gathered after their performance at the festival. They were still buzzing with excitement from the night’s event, discussing how the combination of folk instruments with modern sounds had resonated with the audience.
+                
+                "I think tonight was a reminder that we don’t have to choose between tradition and innovation," said Rami, a young guitarist who had been part of the band that performed after Abu Jassim. "We can have both. Our heritage doesn’t need to be confined to the past. We can evolve it, take it with us, and still stay true to its essence."
+                
+                His friend, Samira, a vocalist who had performed alongside him, agreed. "Exactly. We’ve grown up in a world of constant change, but our heritage is what gives us our identity. If we try to separate the two, we lose something important. Tonight, we proved that the soul of Saudi music can transcend generations, no matter what form it takes."
+                
+                The young musicians exchanged ideas, laughing and brainstorming how they could continue blending the sounds of the desert and the sea with the influences of global music. They had witnessed the magic of that fusion firsthand at the festival and were eager to bring their own unique interpretations to the world. It wasn’t just about keeping the tradition alive—it was about shaping it for a new era, allowing the stories of the past to flow seamlessly into the future.
+                
+                Back in Qatif, the elders were also reflecting on the evening’s events. They spoke of the importance of preserving the traditions of their forefathers, of keeping the flame of the past alive, but they also recognized the beauty of witnessing the younger generation’s interpretations of these traditions.
+                
+                “Perhaps we are not just the keepers of the past, but also the bridges between generations,” said one elder, a quiet man named Fahad, who had been a storyteller for many years. He had seen the way young people like Layla and Rami were infusing their own experiences into the ancient stories and songs.
+                
+                His wife, who had been weaving a tapestry under the stars during the festival, nodded in agreement. "We are here to guide, but also to listen. The world is changing, and so must our ways of sharing the stories of our land. The youth are carrying them forward in their own way, and that’s something to be proud of."
+                
+                As the community of Ash Sharqiyah looked to the future, there was a sense of optimism. They had witnessed the intersection of tradition and modernity, not as opposing forces but as complementary parts of a larger whole. The music and the stories that had long been at the heart of their culture were not being replaced; they were being transformed, reinterpreted, and passed down in ways that would ensure they would continue to thrive for generations to come.
+                
+                The gathering at "Folklore & Music Under the Stars" had been more than just a night of entertainment—it had been a celebration of the past, a reflection on the present, and a hopeful glimpse into the future. It was a testament to the resilience of Ash Sharqiyah’s culture and the ability of its people to adapt while staying true to their roots. As long as the stars continued to shine over the dunes and the waves, the music of the desert, the poetry of the sea, and the tales of their ancestors would continue to echo across the land—forever part of the shared heritage of the people of Saudi Arabia. 
+                
+                And so, under the vast and timeless sky of Ash Sharqiyah, the stories continued to unfold, each note, each word, and each rhythm contributing to the ever-evolving tapestry of the region’s identity.
+            </p>                              
+        </div>
+       
+        
+        <div class="stats">
+          <div class="stat-item">👁️ Views: <span id="viewsCount">3898</span></div>
+          <div class="stat-item"><span id="likeIcon" onclick="toggleLike()" style="cursor: pointer;">❤️</span> Likes: <span id="likeCount">2087</span></div>
+          <div class="stat-item"><span class="icon" onclick="sharePage()" style="cursor: pointer;">📤</span></div>
+        </div>
+        
+        <div class="comments">
+          <h3>Comments</h3>
+          <input type="text" id="commentInput" placeholder="Write a comment..." style="width:70%; padding:5px;">
+          <button class="login-btn" onclick="addComment()">Post</button>
+          <div id="commentsList" style="margin-top: 15px;"></div>
+        </div>
+
+        <div class="author">
+            <div class="author-img">
+                <span>👤</span>
+            </div>
+            <div class="author-info">
+              <div class="author-name">
+                  Reem Al-Najjar
+                  <span id="followButton" style="margin-left: 10px; cursor: pointer; font-size: 18px;">
+                      ➕ Follow
+                  </span>
+              </div>
+              <div class="author-title">Coordinator</div>
+          </div>
+          
+        </div>
+        
+        
+    
+    </div>
+
+    
+    <footer style="background-color: #4b2c2c; color: white; padding: 2rem 1rem;">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 2rem;">
+    
+        <!-- Company Info -->
+        <div style="flex: 1 1 200px;">
+          <h4 style="color: #facc15;">Samra</h4>
+          <p>Digitally preserving Saudi Arabia's oral heritage through community storytelling and cultural events.</p>
+        </div>
+    
+        <!-- Products -->
+        <div style="flex: 1 1 150px;">
+          <h4 style="color: #facc15;">Libraries</h4>
+          <ul style="list-style: none; padding: 0;">
+            <li><a href="riyadh-library.html" style="color: white; text-decoration: none;">Riyadh</a></li>
+            <li><a href="dhahran-library.html" style="color: white; text-decoration: none;">Ash Sharqiyah</a></li>
+            <li><a href="popular-stories.html" style="color: white; text-decoration: none;">Popular Stories</a></li>
+          </ul>
+        </div>
+    
+        <!-- Useful Links -->
+        <div style="flex: 1 1 150px;">
+          <h4 style="color: #facc15;">Useful Links</h4>
+          <ul style="list-style: none; padding: 0;">
+            <li><a href="map.html" style="color: white; text-decoration: none;">View Map</a></li>
+            <li><a href="creator-login.html" style="color: white; text-decoration: none;">Creator Login</a></li>
+            <li><a href="admin-login.html" style="color: white; text-decoration: none;">Admin Login</a></li>
+          </ul>
+        </div>
+    
+        <!-- Contact -->
+        <div style="flex: 1 1 200px;">
+          <h4 style="color: #facc15;">Contact</h4>
+          <p>📍 Dhahran, Saudi Arabia</p>
+          <p>✉ info@samra.org</p>
+          <p>📞 +966 500 000 000</p>
+        </div>
+      </div>
+    
+      <div style="text-align: center; margin-top: 2rem; border-top: 1px solid #aa7f5c; padding-top: 1rem;">
+        &copy; 2025 Samra. All rights reserved.
+      </div>
+    </footer>
+    
+  
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const joinButtons = document.querySelectorAll(".card-content button");
+      joinButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          btn.classList.toggle("joined");
+          btn.textContent = btn.classList.contains("joined") ? "Joined" : "Join";
+        });
+      });
+  
+      const pageButtons = document.querySelectorAll(".pagination .page");
+      const allCards = document.querySelectorAll(".card");
+  
+      function showPage(page) {
+        allCards.forEach((card) => {
+          card.style.display = card.classList.contains(`page-${page}`) ? "block" : "none";
+        });
+        pageButtons.forEach((btn) => btn.classList.remove("active"));
+        document.querySelector(`.pagination .page[data-page="${page}"]`).classList.add("active");
+      }
+  
+      pageButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const page = btn.getAttribute("data-page");
+          showPage(page);
+        });
+      });
+  
+      document.querySelector(".prev").addEventListener("click", () => {
+        const current = document.querySelector(".pagination .page.active");
+        const prev = current.previousElementSibling?.dataset?.page;
+        if (prev) showPage(prev);
+      });
+  
+      document.querySelector(".next").addEventListener("click", () => {
+        const current = document.querySelector(".pagination .page.active");
+        const next = current.nextElementSibling?.dataset?.page;
+        if (next) showPage(next);
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const storiesItem = document.querySelector("nav ul li:nth-child(3)");
+      const dropdown = storiesItem.querySelector(".dropdown");
+  
+      storiesItem.addEventListener("mouseenter", () => {
+        dropdown.style.display = "block";
+      });
+  
+      storiesItem.addEventListener("mouseleave", () => {
+        dropdown.style.display = "none";
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const userRole = localStorage.getItem("userRole");
+
+  if (isLoggedIn && userRole === "creator") {
+    const headerButtons = document.querySelector('header > div:last-child');
+    headerButtons.innerHTML = `
+      <span style="font-weight: bold; color: #8b0000;">Welcome, Creator</span>
+  <a href="creator-dashboard.html" style="text-decoration: none;">
+    <button class="login-btn" style="display: flex; align-items: center; gap: 0.4rem;">
+      <span style="font-size: 1.1rem;">👤</span> My Account
+    </button>
+  </a>
+  <button class="login-btn" onclick="logout()">Log Out</button>
+`;
+  }
+
+
+
+  
+});
+
+function logout() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("userRole");
+  location.reload();
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const startReading = document.getElementById("startReading");
+    const startWriting = document.getElementById("startWriting");
+
+    if (startReading) {
+      startReading.addEventListener("click", function () {
+        window.location.href = "popular-stories.html";
+      });
+    }
+
+    if (startWriting) {
+      startWriting.addEventListener("click", function () {
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        if (isLoggedIn) {
+          window.location.href = "write-story.html";
+
+        }
+          if (!isLoggedIn) {
+      alert("⚠️ You must log in to write a story.");
+    }
+      });
+    }
+  });
+
+  </script>
+
+<script>
+  function logoutConfirmation() {
+    const confirmed = confirm("Are you sure you want to log out?");
+    if (confirmed) {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userRole");
+      window.location.href = "index.html";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        const userRole = localStorage.getItem("userRole");
+        const fullName = localStorage.getItem("fullName") || "Creator"; // fallback
+
+        // --- Update Header
+        if (isLoggedIn && userRole) {
+          const headerButtons = document.querySelector('header > div:last-child');
+          let dashboardLink = "#";
+          let roleName = "User";
+
+          if (userRole === "creator") {
+            dashboardLink = "creator-dashboard.html";
+            roleName = fullName;
+          }
+          else if (userRole === "admin") {
+            dashboardLink = "admin-dashboard.html";
+            roleName = fullName; // Admin doesn't need full name
+          }
+
+          headerButtons.innerHTML = `
+        <span style="font-weight: bold; color: #8b0000;">Welcome, ${roleName}</span>
+        <a href="${dashboardLink}" style="text-decoration: none;">
+          <button class="login-btn" style="display: flex; align-items: center; gap: 0.4rem;">
+            <span style="font-size: 1.1rem;">👤</span> My Account
+          </button>
+        </a>
+        <button class="login-btn" onclick="logout()">Log Out</button>
+      `;
+        }
+  });
+    </script>
+        <script src="main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="icon.png">
+  <title>Riyadh Library - Samra</title>
+  <style>
+    body, html { margin:0; padding:0; font-family:'Segoe UI',sans-serif; background:#fdf8f3; min-height:100%; display:flex; flex-direction:column; }
+
+    header { background:white; padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #e0c6b5; flex-wrap:wrap; gap:0.5rem; }
+    .logo  { height:40px; }
+
+    nav ul { list-style:none; display:flex; gap:1.5rem; margin:0; padding:0; }
+    nav ul li { position:relative; font-weight:500; cursor:pointer; }
+    nav ul li a { text-decoration:none; color:black; }
+    nav ul li:hover, nav ul li:hover > a { color:#8b0000; }
+
+    .dropdown-toggle { background:none; border:none; font:inherit; font-weight:500; cursor:pointer; padding:0; color:inherit; }
+    .dropdown-toggle:hover { color:#8b0000; }
+    .dropdown { position:absolute; top:100%; left:0; background:white; border:1px solid #ccc; padding:0; margin:0; list-style:none; display:none; min-width:150px; z-index:1000; }
+    .has-dropdown:hover .dropdown { display:block; }
+    .has-dropdown:focus-within .dropdown { display:block; }
+    .dropdown li { padding:0.5rem 1rem; cursor:pointer; white-space:nowrap; }
+    .dropdown li:hover { background:#f7f7f7; color:#8b0000; }
+    .dropdown li a { text-decoration:none; color:inherit; display:block; }
+
+    .login-btn { padding:0.4rem 1rem; border:2px solid #8b0000; background:white; color:#8b0000; border-radius:4px; font-weight:600; cursor:pointer; transition:all 0.3s; }
+    .login-btn:hover { background:#8b0000; color:white; }
+
+    .container { padding:2rem; flex:1; }
+    .library-hero { background:linear-gradient(135deg,#8b0000,#c0392b); color:white; padding:2rem; border-radius:12px; margin-bottom:2rem; }
+    .library-hero h2 { margin:0 0 0.5rem; font-size:1.8rem; }
+    .library-hero p  { margin:0; opacity:0.85; }
+
+    .filter-bar { display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:space-between; align-items:center; margin-bottom:1.5rem; }
+    .filter-bar label { font-weight:600; color:#8b0000; }
+    .search-bar { padding:0.4rem 0.8rem; border:2px solid #ccc; border-radius:5px; font-size:1rem; }
+    #resetBtn { padding:0.4rem 1rem; background:white; color:#8b0000; border:2px solid #8b0000; border-radius:6px; font-weight:bold; cursor:pointer; transition:all 0.3s; }
+    #resetBtn:hover { background:#8b0000; color:white; }
+
+    .genre-tags { display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1.5rem; }
+    .tag { padding:0.3rem 0.8rem; background:#f5f3f2; border:1px solid #ddd; border-radius:20px; cursor:pointer; font-size:0.85rem; transition:all 0.2s; user-select:none; }
+    .tag:hover, .tag.active { background:#8b0000; color:white; border-color:#8b0000; }
+
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.5rem; }
+    .card  { background:#f5f3f2; border-radius:12px; overflow:hidden; box-shadow:0 5px 10px rgba(0,0,0,.05); transition:transform 0.3s; }
+    .card:hover { transform:translateY(-5px); }
+    .card img   { width:100%; height:180px; object-fit:cover; }
+    .card-link  { text-decoration:none; color:inherit; display:block; }
+    .card-content { padding:1rem; }
+    .card-content strong { color:#8b0000; font-size:1.05rem; }
+    .card-content h4 { margin:0.4rem 0 0.2rem; font-size:1rem; }
+    .card-content p  { margin:0.2rem 0; color:#444; font-size:0.88rem; }
+    .card-content span { display:block; margin-top:0.4rem; color:#666; font-style:italic; font-size:0.875rem; }
+
+    .pagination { display:flex; gap:0.5rem; justify-content:center; margin-top:2rem; }
+    .pagination button { padding:0.4rem 0.9rem; border:2px solid #8b0000; background:white; color:#8b0000; border-radius:6px; cursor:pointer; font-weight:600; transition:all 0.2s; }
+    .pagination button.active, .pagination button:hover { background:#8b0000; color:white; }
+
+    footer { flex-shrink:0; }
+
+    @media (max-width:768px) {
+      header { flex-direction:column; align-items:flex-start; }
+      nav ul { flex-direction:column; gap:0.5rem; }
+      .container { padding:1rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <a href="index.html"><img src="images/logo.jpg" alt="Samra Logo" class="logo"></a>
+      <nav>
+        <ul class="nav-list">
+          <li><a href="index.html">Home page</a></li>
+          <li><a href="map.html">View Map</a></li>
+          <li class="has-dropdown">
+            <button class="dropdown-toggle">Stories ▾</button>
+            <ul class="dropdown">
+              <li><a href="popular-stories.html">Popular Stories</a></li>
+              <li><a href="riyadh-library.html">Riyadh Library</a></li>
+              <li><a href="dhahran-library.html">Ash Sharqiyah Library</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+      <!-- filled by shared.js -->
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="library-hero">
+      <h2>📚 Riyadh Library</h2>
+      <p>Stories rooted in the heart of the Arabian Peninsula — from ancient legends to modern voices of the capital.</p>
+    </div>
+
+    <div class="filter-bar">
+      <input type="text" id="searchInput" class="search-bar" placeholder="Search stories..." style="flex:1;max-width:320px;">
+      <button id="resetBtn">Reset</button>
+    </div>
+
+    <!-- Genre tag filters, built dynamically -->
+    <div class="genre-tags" id="genreTags"></div>
+
+    <div class="cards" id="cardsGrid"></div>
+    <p id="noResults" style="display:none;color:#888;text-align:center;padding:2rem;">No stories match your search.</p>
+
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+  <footer></footer>
+
+  <script src="stories-data.js"></script>
+  <script src="shared.js"></script>
+  <script>
+    const STORIES     = getLibraryStories("riyadh");
+    const PAGE_SIZE   = 4;
+    let currentPage   = 1;
+    let activeGenre   = "all";
+
+    const searchInput = document.getElementById("searchInput");
+    const resetBtn    = document.getElementById("resetBtn");
+    const cardsGrid   = document.getElementById("cardsGrid");
+    const noResults   = document.getElementById("noResults");
+    const pagination  = document.getElementById("pagination");
+    const genreTags   = document.getElementById("genreTags");
+
+    // Build genre tag buttons
+    const genres = ["All", ...new Set(STORIES.map(s => s.genre))];
+    genres.forEach(g => {
+      const btn = document.createElement("button");
+      btn.className = "tag" + (g === "All" ? " active" : "");
+      btn.textContent = g;
+      btn.addEventListener("click", () => {
+        activeGenre = g.toLowerCase() === "all" ? "all" : g;
+        document.querySelectorAll(".tag").forEach(t => t.classList.remove("active"));
+        btn.classList.add("active");
+        currentPage = 1;
+        render();
+      });
+      genreTags.appendChild(btn);
+    });
+
+    function filtered() {
+      const text = searchInput.value.toLowerCase().trim();
+      return STORIES.filter(s => {
+        const matchesGenre  = activeGenre === "all" || s.genre === activeGenre;
+        const matchesSearch = !text ||
+          s.title.toLowerCase().includes(text) ||
+          s.author.toLowerCase().includes(text) ||
+          s.genre.toLowerCase().includes(text);
+        return matchesGenre && matchesSearch;
+      });
+    }
+
+    function render() {
+      const list      = filtered();
+      const totalPages = Math.ceil(list.length / PAGE_SIZE);
+      const slice      = list.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+      cardsGrid.innerHTML = "";
+      noResults.style.display = slice.length === 0 ? "block" : "none";
+      slice.forEach(s => cardsGrid.appendChild(buildStoryCard(s, false)));
+
+      // Pagination
+      pagination.innerHTML = "";
+      if (totalPages > 1) {
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement("button");
+          btn.textContent = i;
+          if (i === currentPage) btn.classList.add("active");
+          btn.addEventListener("click", () => { currentPage = i; render(); window.scrollTo(0,0); });
+          pagination.appendChild(btn);
+        }
+      }
+    }
+
+    searchInput.addEventListener("input", () => { currentPage = 1; render(); });
+    resetBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      activeGenre = "all";
+      document.querySelectorAll(".tag").forEach(t => t.classList.remove("active"));
+      genreTags.querySelector(".tag").classList.add("active");
+      currentPage = 1;
+      render();
+    });
+
+    document.addEventListener("DOMContentLoaded", render);
+  </script>
+</body>
+</html>

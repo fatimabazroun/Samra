@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="icon.png">
+
+    <title>Life Beneath the Oil Towers</title>
+    <style>
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .login-btn {
+                width: 100%;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            footer {
+                padding: 1rem;
+            }
+            
+            .story-header {
+                flex-direction: column;
+            }
+            
+            .story-image {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 5/7;
+            }
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #fdf8f3;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e0c6b5;
+        }
+        
+        .logo {
+            height: 40px;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav ul li {
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: black;
+        }
+        
+        nav ul li:hover, nav ul li:hover > a {
+            color: #8b0000;
+        }
+        
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #ccc;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: none;
+            min-width: 150px;
+            z-index: 1000;
+        }
+        
+        .nav-list li:hover .dropdown {
+            display: block;
+        }
+        
+        .dropdown li {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .dropdown li:hover {
+            background-color: #f7f7f7;
+            color: #8b0000;
+        }
+
+        .login-btn {
+            padding: 0.4rem 1rem;
+            border: 2px solid #8b0000;
+            background: white;
+            color: #8b0000;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #8b0000;
+            color: white;
+        }
+        
+        .content {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .story-header {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+        
+        .story-image {
+            width: 250px;
+            height: 350px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .story-info {
+            flex: 1;
+        }
+        
+        .story-title {
+            font-size: 28px;
+            margin: 0 0 20px 0;
+            color: #222;
+        }
+        
+        .story-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .story-content {
+            line-height: 1.6;
+            margin-bottom: 25px;
+            padding-top: 15px;
+        }
+        
+        .read-btn {
+            background-color: #8e44ad;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            display: block;
+            width: 150px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        
+        .read-btn:hover {
+            background-color: #7d3c98;
+        }
+        
+        .stats {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.stat-item {
+    display: block;
+}
+        
+        .author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.author-title {
+    font-size: 0.8em;
+    font-weight: normal;
+    color: #666;
+}
+        
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .author-name {
+            font-weight: bold;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .share-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .icon {
+            width: 24px;
+            height: 24px;
+            background-color: #eee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .icon:hover {
+            background-color: #ddd;
+        }
+        
+        .comments {
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        
+        .comment {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .comment-user {
+            font-weight: bold;
+        }
+        
+        .comment-time {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        footer {
+            background-color: #562e39;
+            color: white;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .footer-text {
+            text-align: center;
+            flex: 1 1 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .socials span {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <a href="index.html"><img src="images/logo.jpg" alt="Samra Logo" class="logo"></a>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="index.html">Home page</a></li>
+                    <li><a href="map.html">View Map</a></li>
+                    <li tabindex="0">
+                        Stories ▾
+                        <ul class="dropdown">
+                            <li><a href="popular-stories.html">Popular Stories</a></li>
+                            <li><a href="riyadh-library.html">Riyadh Library</a></li>
+                            <li><a href="dhahran-library.html">ash sharqiyah Library</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <a href="creator-login.html"><button class="login-btn">Log in As Creator</button></a>
+            <a href="admin-login.html"><button class="login-btn">Log in As Admin</button></a>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="story-header">
+            <div class="story-image">
+                <img src="images/dhahran7.jpg" alt="Life Beneath the Oil Towers">
+            </div>
+            <div class="story-info">
+                <h1 class="story-title">Life Beneath the Oil Towers</h1>
+                
+                <div class="story-meta">
+                    <span>Written by: Salma Al-Jubail</span>
+                    <span>Published by: Hussain Al-Ali</span>
+                    <span>Genre: Documentary</span>
+                    <span>Region of Origin: ash Sharqiyah</span>
+                    <span>Word Count: 901</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="story-content">
+            <p>Daily routines and lives explored beneath the towering presence of the oil rigs have been integral to the shaping of communities that exist around them. In regions like Dhahran, where the oil industry is not just an economic backbone but a way of life, the towering oil structures symbolize more than just wealth—they represent the rhythm of life for thousands of workers and their families. For those who live in the shadow of these giant rigs, life is a balance between the constant hum of industrial machinery, the stability offered by oil revenues, and the quiet aspirations of those striving for something more.
+                
+                In the early morning hours, as the sun barely kisses the horizon, the town comes alive in a predictable, almost ritualistic manner. The oil rigs stand tall and unyielding, sending ripples of light into the golden expanse of the desert. The first few workers, clad in their coveralls and hard hats, head to the rig site, passing through the quiet streets that line the edges of the oil fields. For many, this is the start of another long day spent working on the oil rigs. The men who work on these machines follow a set routine—checking gauges, performing maintenance, overseeing operations. Their jobs are demanding and often dangerous, but essential for keeping the wheels of industry turning.
+                
+                But for the families who call these oil-rich towns home, life is a bit different. Their routines unfold in a contrasting way—more attuned to the human side of life, less about the relentless, mechanical world of the oil industry. As the workers leave for their shifts, their spouses wake up to get the children ready for school. The days of the housewives and mothers are spent managing homes, nurturing their children, and contributing in small yet meaningful ways to the fabric of community life. The children of oil workers grow up in these towns, and their experiences are influenced by the omnipresence of the rigs and the unspoken respect that they hold for the industry that sustains their lives.
+                
+                Schools in these towns often cater to the children of workers, providing education that is on par with international standards. In many cases, teachers come from different parts of the world, creating a diverse, multicultural environment where children are not only exposed to the local customs but also learn about the broader world outside. These schools become one of the focal points of daily life, where friendships are made, and aspirations begin to form. The children often have a deep sense of pride in their parents’ work on the rigs, but their imaginations extend far beyond the oil fields. Some dream of following in their parents' footsteps, while others imagine lives in far-off lands or in professions that take them far away from the relentless desert.
+                
+                The families living near the oil towers are used to the constant sounds of machinery—whirring engines, the hum of pumps, and the occasional blast of steam. These sounds are a constant backdrop to their lives, and over time, they become comforting rather than jarring. The oil towers themselves, though imposing, offer a sense of security to the families who live beneath their shadow. The wealth generated by the oil industry translates into improved infrastructure, well-maintained housing, and modern amenities that make daily life easier. But beyond the wealth, there is a deeper, more intrinsic connection to the industry—the awareness that the work being done on these rigs is both physically demanding and vital to the survival of the community.
+                
+                As the day unfolds, the rhythms of life vary. The markets in these towns bustle with activity during the day, as families gather their provisions, often from markets that reflect the diverse population that lives here. Vendors from different regions of the world set up their stalls, selling everything from fresh produce and spices to clothing and electronics. This interaction with the outside world provides a unique flavor to life in these towns, giving residents a taste of global culture amidst the industrious hum of their daily lives.
+                
+                Meanwhile, workers return home from their shifts, greeted by the warm embrace of family and the quiet comforts of home. Their days on the rigs are long, and they are often physically exhausted. But despite the hardships, there is a sense of camaraderie that develops among the workers. In the evenings, many gather in local parks, cafes, or communal spaces, unwinding with a cup of tea or coffee, exchanging stories, and reconnecting with friends. The bonds formed in these spaces are significant—these are the people who understand the trials and tribulations of life beneath the oil tower.
+                
+                Evenings are often filled with quiet reflection. Families gather for dinner, a time to share stories of their day, to laugh, and sometimes, to talk about the challenges that lie ahead. There is an unspoken understanding that while life in the shadow of the oil rig can be difficult, it offers something else in return: stability. Many families have built careers, raised children, and established long-term friendships in these towns, and this sense of belonging creates a deeper connection to the place.
+                
+                For the workers, it’s a balancing act between the demands of their profession and the relationships they maintain with their families. Shifts can be long, and the pressure is immense, but for many, it’s a way of life they’ve known for generations. The young men who follow in their fathers' footsteps understand the value of hard work and sacrifice, learning not just about the intricacies of the rigs but also about the pride that comes with sustaining an entire community.
+                
+                However, the demands of the oil industry do not come without consequences. Life beneath the oil tower also brings a unique set of challenges. The environment is harsh, with sweltering heat in the summer and the isolation of working long hours in the desert. For some, the effects of this lifestyle can take a toll on their health, both physically and mentally. Yet, the people living here seem to have found a rhythm—adjusting to the intensity of the work while still managing to maintain their humanity. Their resilience and determination to make a life in this challenging environment become a testament to the unyielding spirit of those who call this place home.
+                
+                Life beneath the oil tower is shaped by a delicate balance between work and life, between tradition and modernity. It is a life marked by hard work, but also by deep bonds of community, culture, and family. The oil towers stand as symbols of both progress and sacrifice, providing the economic foundation for these communities while shaping the daily routines of those who live beneath their shadow.
+            </p>                              
+        </div>
+       
+        
+        <div class="stats">
+          <div class="stat-item">👁️ Views: <span id="viewsCount">398</span></div>
+          <div class="stat-item"><span id="likeIcon" onclick="toggleLike()" style="cursor: pointer;">❤️</span> Likes: <span id="likeCount">255</span></div>
+          <div class="stat-item"><span class="icon" onclick="sharePage()" style="cursor: pointer;">📤</span></div>
+        </div>
+        
+        <div class="comments">
+          <h3>Comments</h3>
+          <input type="text" id="commentInput" placeholder="Write a comment..." style="width:70%; padding:5px;">
+          <button class="login-btn" onclick="addComment()">Post</button>
+          <div id="commentsList" style="margin-top: 15px;"></div>
+        </div>
+
+        <div class="author">
+            <div class="author-img">
+                <span>👤</span>
+            </div>
+            <div class="author-info">
+              <div class="author-name">
+                  Salma Al-Jubail
+                  <span id="followButton" style="margin-left: 10px; cursor: pointer; font-size: 18px;">
+                      ➕ Follow
+                  </span>
+              </div>
+              <div class="author-title">Filmmaker</div>
+          </div>
+          
+        </div>
+        
+       
+    
+    </div>
+
+    
+    <footer style="background-color: #4b2c2c; color: white; padding: 2rem 1rem;">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 2rem;">
+    
+        <!-- Company Info -->
+        <div style="flex: 1 1 200px;">
+          <h4 style="color: #facc15;">Samra</h4>
+          <p>Digitally preserving Saudi Arabia's oral heritage through community storytelling and cultural events.</p>
+        </div>
+    
+        <!-- Products -->
+        <div style="flex: 1 1 150px;">
+          <h4 style="color: #facc15;">Libraries</h4>
+          <ul style="list-style: none; padding: 0;">
+            <li><a href="riyadh-library.html" style="color: white; text-decoration: none;">Riyadh</a></li>
+            <li><a href="dhahran-library.html" style="color: white; text-decoration: none;">Ash Sharqiyah</a></li>
+            <li><a href="popular-stories.html" style="color: white; text-decoration: none;">Popular Stories</a></li>
+          </ul>
+        </div>
+    
+        <!-- Useful Links -->
+        <div style="flex: 1 1 150px;">
+          <h4 style="color: #facc15;">Useful Links</h4>
+          <ul style="list-style: none; padding: 0;">
+            <li><a href="map.html" style="color: white; text-decoration: none;">View Map</a></li>
+            <li><a href="creator-login.html" style="color: white; text-decoration: none;">Creator Login</a></li>
+            <li><a href="admin-login.html" style="color: white; text-decoration: none;">Admin Login</a></li>
+          </ul>
+        </div>
+    
+        <!-- Contact -->
+        <div style="flex: 1 1 200px;">
+          <h4 style="color: #facc15;">Contact</h4>
+          <p>📍 Dhahran, Saudi Arabia</p>
+          <p>✉ info@samra.org</p>
+          <p>📞 +966 500 000 000</p>
+        </div>
+      </div>
+    
+      <div style="text-align: center; margin-top: 2rem; border-top: 1px solid #aa7f5c; padding-top: 1rem;">
+        &copy; 2025 Samra. All rights reserved.
+      </div>
+    </footer>
+    
+  
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const joinButtons = document.querySelectorAll(".card-content button");
+      joinButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          btn.classList.toggle("joined");
+          btn.textContent = btn.classList.contains("joined") ? "Joined" : "Join";
+        });
+      });
+  
+      const pageButtons = document.querySelectorAll(".pagination .page");
+      const allCards = document.querySelectorAll(".card");
+  
+      function showPage(page) {
+        allCards.forEach((card) => {
+          card.style.display = card.classList.contains(`page-${page}`) ? "block" : "none";
+        });
+        pageButtons.forEach((btn) => btn.classList.remove("active"));
+        document.querySelector(`.pagination .page[data-page="${page}"]`).classList.add("active");
+      }
+  
+      pageButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const page = btn.getAttribute("data-page");
+          showPage(page);
+        });
+      });
+  
+      document.querySelector(".prev").addEventListener("click", () => {
+        const current = document.querySelector(".pagination .page.active");
+        const prev = current.previousElementSibling?.dataset?.page;
+        if (prev) showPage(prev);
+      });
+  
+      document.querySelector(".next").addEventListener("click", () => {
+        const current = document.querySelector(".pagination .page.active");
+        const next = current.nextElementSibling?.dataset?.page;
+        if (next) showPage(next);
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const storiesItem = document.querySelector("nav ul li:nth-child(3)");
+      const dropdown = storiesItem.querySelector(".dropdown");
+  
+      storiesItem.addEventListener("mouseenter", () => {
+        dropdown.style.display = "block";
+      });
+  
+      storiesItem.addEventListener("mouseleave", () => {
+        dropdown.style.display = "none";
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const userRole = localStorage.getItem("userRole");
+
+  if (isLoggedIn && userRole === "creator") {
+    const headerButtons = document.querySelector('header > div:last-child');
+    headerButtons.innerHTML = `
+      <span style="font-weight: bold; color: #8b0000;">Welcome, Creator</span>
+  <a href="creator-dashboard.html" style="text-decoration: none;">
+    <button class="login-btn" style="display: flex; align-items: center; gap: 0.4rem;">
+      <span style="font-size: 1.1rem;">👤</span> My Account
+    </button>
+  </a>
+  <button class="login-btn" onclick="logout()">Log Out</button>
+`;
+  }
+
+
+
+  
+});
+
+function logout() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("userRole");
+  location.reload();
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const startReading = document.getElementById("startReading");
+    const startWriting = document.getElementById("startWriting");
+
+    if (startReading) {
+      startReading.addEventListener("click", function () {
+        window.location.href = "popular-stories.html";
+      });
+    }
+
+    if (startWriting) {
+      startWriting.addEventListener("click", function () {
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        if (isLoggedIn) {
+          window.location.href = "write-story.html";
+
+        }
+          if (!isLoggedIn) {
+      alert("⚠️ You must log in to write a story.");
+    }
+      });
+    }
+  });
+
+  </script>
+
+<script>
+  function logoutConfirmation() {
+    const confirmed = confirm("Are you sure you want to log out?");
+    if (confirmed) {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userRole");
+      window.location.href = "index.html";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        const userRole = localStorage.getItem("userRole");
+        const fullName = localStorage.getItem("fullName") || "Creator"; // fallback
+
+        // --- Update Header
+        if (isLoggedIn && userRole) {
+          const headerButtons = document.querySelector('header > div:last-child');
+          let dashboardLink = "#";
+          let roleName = "User";
+
+          if (userRole === "creator") {
+            dashboardLink = "creator-dashboard.html";
+            roleName = fullName;
+          }
+          else if (userRole === "admin") {
+            dashboardLink = "admin-dashboard.html";
+            roleName = fullName; // Admin doesn't need full name
+          }
+
+          headerButtons.innerHTML = `
+        <span style="font-weight: bold; color: #8b0000;">Welcome, ${roleName}</span>
+        <a href="${dashboardLink}" style="text-decoration: none;">
+          <button class="login-btn" style="display: flex; align-items: center; gap: 0.4rem;">
+            <span style="font-size: 1.1rem;">👤</span> My Account
+          </button>
+        </a>
+        <button class="login-btn" onclick="logout()">Log Out</button>
+      `;
+        }
+  });
+    </script>
+        <script src="main.js"></script>
+
+</body>
+</html>

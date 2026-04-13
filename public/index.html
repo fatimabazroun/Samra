@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="icon.png">
+
+  <title>Samra</title>
+  <style>
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      header nav ul {
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 1rem;
+      }
+
+      .hero {
+        flex-direction: column;
+        text-align: center !important;
+      }
+
+      .hero h1 {
+        font-size: 1.5rem !important;
+      }
+
+      .hero>div {
+        width: 100%;
+      }
+
+      .hero-button {
+        width: 80%;
+        max-width: 300px;
+      }
+
+      .cards {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .card {
+        width: 90% !important;
+        max-width: 400px;
+      }
+
+      .card img {
+        height: auto;
+        max-height: 200px;
+      }
+
+      .card-content {
+        text-align: left;
+      }
+
+
+      .pagination {
+        flex-wrap: wrap;
+      }
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fdf8f3;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #e0c6b5;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.3rem;
+      color: #8b0000;
+    }
+
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      cursor: pointer;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li:hover {
+      color: #8b0000;
+    }
+
+    .hero-button {
+      margin: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      border: 2px solid #8b0000;
+      background: white;
+      color: #8b0000;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .hero-button:hover {
+      background-color: #8b0000;
+      color: white;
+    }
+
+    .hero {
+      background: #fff;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      color: #8b0000;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-buttons button {
+      margin: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background-color: transparent;
+      border: 2px solid #8b0000;
+      color: #8b0000;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .hero-buttons button:hover {
+      background-color: #8b0000;
+      color: white;
+    }
+
+    .sub-hero {
+      background: #faefea;
+      padding: 2rem;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #6a1b1b;
+    }
+
+    .cards {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 2rem;
+      gap: 1rem;
+      background: #fff;
+    }
+
+    .card {
+      background: #f3f1ef;
+      width: 22%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 1rem;
+    }
+
+    .card-content h4 {
+      margin-bottom: 0.5rem;
+      color: #8b0000;
+    }
+
+    .card-content p {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-content .author {
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    .card-content button {
+      margin-top: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      border: 2px solid #8b0000;
+      background-color: transparent;
+      color: #8b0000;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .card-content button.joined {
+      background-color: #8b0000;
+      color: white;
+      font-weight: bold;
+    }
+
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 2rem 0;
+    }
+
+    .pagination button {
+      padding: 0.5rem 1rem;
+      border: 2px solid #8b0000;
+      background: white;
+      color: #8b0000;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .pagination button:hover,
+    .pagination button.active {
+      background-color: #8b0000;
+      color: white;
+      border-color: #8b0000;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-list li {
+      cursor: pointer;
+      position: relative;
+      font-weight: 500;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      border: 1px solid #ccc;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: none;
+      min-width: 150px;
+      z-index: 1000;
+    }
+
+    .dropdown li {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .dropdown li:hover {
+      background-color: #f7f7f7;
+      color: #8b0000;
+    }
+
+    .nav-list li:hover>.dropdown {
+      display: block;
+    }
+
+
+    .dropdown a {
+      display: block;
+      padding: 0.6rem 1.2rem;
+      font-weight: bold;
+      color: #8b0000;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .dropdown a:hover {
+      background-color: #f5f5f5;
+      color: #8b0000;
+    }
+
+
+    .login-btn {
+      padding: 0.4rem 1rem;
+      border: 2px solid #8b0000;
+      background: white;
+      color: #8b0000;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .login-btn:hover {
+      background-color: #8b0000;
+      color: white;
+    }
+
+
+    footer {
+      background-color: #562e39;
+      color: white;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .footer-text {
+      text-align: center;
+      flex: 1 1 100%;
+      margin-bottom: 1rem;
+    }
+
+
+    .who-we-are {
+      background-color: #faefea;
+      padding: 3rem 2rem;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.6s ease-out;
+    }
+
+    .who-we-are.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .who-we-are h2 {
+      color: #8b0000;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .who-we-are p {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1rem;
+      color: #4b2c2c;
+      line-height: 1.7;
+    }
+
+    .who-we-are h3 {
+      margin-top: 2.5rem;
+      color: #8b0000;
+    }
+
+    .team-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      font-weight: bold;
+      color: #6a1b1b;
+    }
+
+    .team-list li {
+      padding: 0.5rem 1rem;
+      background-color: #fff;
+      border-radius: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .team-list li:hover {
+      background-color: #f5d4c8;
+      transform: translateY(-3px);
+    }
+
+    .card a {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header
+    style="border-bottom: 2px solid #e0c6b5; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: white;">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <img src="images/logo.jpg" alt="Samra Logo" style="height: 40px;">
+      <nav>
+        <ul class="nav-list">
+          <li><a href="index.html" style="text-decoration: none; color: inherit;">Home Page</a></li>
+          <li><a href="map.html" style="text-decoration: none; color: inherit;">View Map</a></li>
+          <li>
+            Stories ▾
+            <ul class="dropdown" id="storiesMenu">
+              <li><a href="popular-stories.html">Popular Stories</a></li>
+              <li><a href="riyadh-library.html">Riyadh Library</a></li>
+              <li><a href="dhahran-library.html">ash sharqiyah Library</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+      <a href="creator-login.html">
+        <button class="login-btn">Log in As Creator</button>
+      </a>
+      <a href="admin-login.html">
+        <button class="login-btn">Log in As Admin</button>
+      </a>
+
+
+    </div>
+
+  </header>
+
+
+  <!-- Hero Section -->
+  <section class="hero"
+    style="display: flex; justify-content: space-between; align-items: center; padding: 4rem 2rem; background-color: #f9f9f9; flex-wrap: wrap;">
+    <div style="flex: 1;">
+      <h1 style="color: #8b0000; font-size: 2rem; margin-bottom: 1rem;">
+        JOIN OUR JOURNEY TO PRESERVE SAUDI ARABIA’S HERITAGE, ONE STORY AT A TIME.
+      </h1>
+      <div>
+        <button class="hero-button" id="startReading">Start Reading</button>
+        <button class="hero-button" id="startWriting" type="button">Start Writing</button>
+      </div>
+
+    </div>
+    <div style="flex: 1; text-align: right;">
+      <img src="images/transfer-files-concept-landing-page.png" alt="Illustration"
+        style="max-width: 100%; height: auto;">
+    </div>
+  </section>
+
+  <!-- Sub Hero Description -->
+  <section class="sub-hero">
+    Discover stories inspired by Saudi folklore, history, and traditions. Connect with the Kingdom’s rich heritage
+    through community-driven storytelling and cultural events.
+  </section>
+
+
+  <!-- Cards rendered dynamically from stories-data.js -->
+  <section class="cards" id="card-container"></section>
+
+
+  <!-- Pagination Controls -->
+  <div class="pagination">
+    <button class="prev">&lt; Previous</button>
+    <button class="page active" data-page="1">1</button>
+    <button class="page" data-page="2">2</button>
+    <button class="next">Next &gt;</button>
+  </div>
+
+
+  <!-- Who We Are Section -->
+  <section class="who-we-are" id="whoWeAre">
+    <h2>Who We Are</h2>
+    <p>
+      The main motivation behind the <strong>Samra</strong> project is preserving and documenting Saudi oral heritage,
+      which is a fundamental part of the cultural identity of the community.
+      Over time, many folk tales and legends may fade or be forgotten, so this platform serves as a tool to safeguard
+      this cultural heritage, digitally preserving it and making it accessible
+      for future generations. This mission is worth pursuing because oral heritage carries invaluable cultural,
+      historical, and linguistic insights that risk being lost with time. By preserving
+      and organizing these narratives digitally, we ensure future generations can access and study them, fostering a
+      deeper appreciation of Saudi heritage and its influence on identity and storytelling.
+    </p>
+
+    <h3>Meet the Team</h3>
+    <ul class="team-list">
+      <li>Fatima Bazroun</li>
+      <li>Fatimah Alshabaan</li>
+      <li>Sadeem Alotaibi</li>
+      <li>Sarah Alsaleem</li>
+      <li>Renad Alqahtani</li>
+      <li>Reman Alqahtani</li>
+    </ul>
+  </section>
+
+  <footer style="background-color: #4b2c2c; color: white; padding: 2rem 1rem;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 2rem;">
+  
+      <!-- Company Info -->
+      <div style="flex: 1 1 200px;">
+        <h4 style="color: #facc15;">Samra</h4>
+        <p>Digitally preserving Saudi Arabia's oral heritage through community storytelling and cultural events.</p>
+      </div>
+  
+      <!-- Products -->
+      <div style="flex: 1 1 150px;">
+        <h4 style="color: #facc15;">Libraries</h4>
+        <ul style="list-style: none; padding: 0;">
+          <li><a href="riyadh-library.html" style="color: white; text-decoration: none;">Riyadh</a></li>
+          <li><a href="dhahran-library.html" style="color: white; text-decoration: none;">Ash Sharqiyah</a></li>
+          <li><a href="popular-stories.html" style="color: white; text-decoration: none;">Popular Stories</a></li>
+        </ul>
+      </div>
+  
+      <!-- Useful Links -->
+      <div style="flex: 1 1 150px;">
+        <h4 style="color: #facc15;">Useful Links</h4>
+        <ul style="list-style: none; padding: 0;">
+          <li><a href="map.html" style="color: white; text-decoration: none;">View Map</a></li>
+          <li><a href="creator-login.html" style="color: white; text-decoration: none;">Creator Login</a></li>
+          <li><a href="admin-login.html" style="color: white; text-decoration: none;">Admin Login</a></li>
+        </ul>
+      </div>
+  
+      <!-- Contact -->
+      <div style="flex: 1 1 200px;">
+        <h4 style="color: #facc15;">Contact</h4>
+        <p>📍 Dhahran, Saudi Arabia</p>
+        <p>✉ info@samra.org</p>
+        <p>📞 +966 500 000 000</p>
+      </div>
+    </div>
+  
+    <div style="text-align: center; margin-top: 2rem; border-top: 1px solid #aa7f5c; padding-top: 1rem;">
+      &copy; 2025 Samra. All rights reserved.
+    </div>
+  </footer>
+  
+  
+  <script src="stories-data.js"></script>
+  <script src="shared.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("card-container");
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+      // ── Render cards by page ──────────────────────────────────────────────
+      const page1 = SAMRA_STORIES.filter(s => s.featured && s.homePage === 1);
+      const page2 = SAMRA_STORIES.filter(s => s.featured && s.homePage === 2);
+
+      function makeCard(story, pageNum) {
+        const link = document.createElement("a");
+        link.href = story.url;
+        link.style.cssText = "text-decoration:none;color:inherit;";
+
+        const card = document.createElement("div");
+        card.className = `card page-${pageNum}`;
+        if (pageNum === 2) card.style.display = "none";
+
+        card.innerHTML = `
+          <img src="${story.image}" alt="${story.title}" loading="lazy">
+          <div class="card-content">
+            <h4>${story.genre}</h4>
+            <p><strong>${story.title}</strong><br>${story.excerpt}</p>
+            <p class="author">${story.author}<br><em>${story.authorTitle}</em></p>
+          </div>
+        `;
+
+        if (story.type === "event") {
+          const btn = document.createElement("button");
+          btn.className = "join-btn";
+          btn.textContent = "Join";
+          if (!isLoggedIn) { btn.style.opacity = "0.4"; btn.title = "Log in to join"; }
+          btn.addEventListener("click", (e) => {
+            e.preventDefault(); e.stopPropagation();
+            if (!isLoggedIn) { alert("⚠️ You must log in to join an event."); return; }
+            btn.classList.toggle("joined");
+            btn.textContent = btn.classList.contains("joined") ? "Joined" : "Join";
+          });
+          card.querySelector(".card-content").appendChild(btn);
+        }
+
+        link.appendChild(card);
+        return link;
+      }
+
+      [...page1, ...page2].forEach((s, i) => {
+        container.appendChild(makeCard(s, s.homePage));
+      });
+
+      // ── Pagination ────────────────────────────────────────────────────────
+      let currentPage = 1;
+      const pageButtons = document.querySelectorAll(".pagination .page");
+
+      function showPage(p) {
+        currentPage = parseInt(p);
+        document.querySelectorAll(".card").forEach(c => {
+          c.style.display = c.classList.contains(`page-${currentPage}`) ? "block" : "none";
+        });
+        pageButtons.forEach(b => b.classList.toggle("active", b.dataset.page == currentPage));
+      }
+
+      pageButtons.forEach(b => b.addEventListener("click", () => showPage(b.dataset.page)));
+      document.querySelector(".prev").addEventListener("click", () => { if (currentPage > 1) showPage(currentPage - 1); });
+      document.querySelector(".next").addEventListener("click", () => { if (currentPage < 2) showPage(currentPage + 1); });
+
+      showPage(1);
+
+      // ── Hero buttons ──────────────────────────────────────────────────────
+      document.getElementById("startReading")?.addEventListener("click", () => {
+        location.href = "popular-stories.html";
+      });
+      document.getElementById("startWriting")?.addEventListener("click", () => {
+        if (isLoggedIn) { location.href = "start-write.html"; }
+        else { alert("⚠️ You must log in to write a story."); }
+      });
+
+      // ── Who We Are scroll animation ───────────────────────────────────────
+      const whoWeAre = document.getElementById("whoWeAre");
+      const onScroll = () => {
+        if (whoWeAre && whoWeAre.getBoundingClientRect().top < globalThis.innerHeight - 100) {
+          whoWeAre.classList.add("visible");
+        }
+      };
+      globalThis.addEventListener("scroll", onScroll);
+    });
+  </script>
+
+
+
+</body>
+
+</html>

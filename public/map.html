@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="icon.png">
+
+  <title>Samra - Map</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fdf8f3;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      border-bottom: 2px solid #e0c6b5;
+    }
+
+    .logo {
+      height: 40px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+      flex-wrap: wrap;
+    }
+
+    nav ul li {
+      cursor: pointer;
+      position: relative;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li:hover {
+      color: #8b0000;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      border: 1px solid #ccc;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: none;
+      min-width: 150px;
+      z-index: 1000;
+    }
+
+    .dropdown li {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .dropdown li:hover {
+      background-color: #f7f7f7;
+      color: #8b0000;
+    }
+
+    nav ul li:hover > .dropdown {
+      display: block;
+    }
+
+    .login-btn {
+      padding: 0.4rem 1rem;
+      border: 2px solid #8b0000;
+      background: white;
+      color: #8b0000;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .login-btn:hover {
+      background-color: #8b0000;
+      color: white;
+    }
+
+    .map-container {
+      position: relative;
+      width: 90%;
+      max-width: 700px;
+      margin: 2rem auto;
+    }
+
+    .map {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .marker {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #8b0044;
+      border: 3px solid white;
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(139, 0, 68, 0.2);
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: transform 0.2s ease;
+    }
+
+    .marker:hover {
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    footer {
+      background-color: #562e39;
+      color: white;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .footer-text {
+      text-align: center;
+      flex: 1 1 100%;
+      margin-bottom: 1rem;
+    }
+
+    .socials span {
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    #container {
+  width: 90%;
+  max-width: 1000px;
+  height: 600px;
+  margin: 2rem auto;
+}
+
+
+.loading {
+    margin-top: 10em;
+    text-align: center;
+    color: gray;
+}
+.button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .action-btn {
+      background-color: #8b0000;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 0 10px;
+    }
+
+    .action-btn:hover {
+      background-color: #a30000;
+    }
+
+    .select-container {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    select {
+      padding: 0.5rem;
+      border-radius: 6px;
+      margin: 0 10px;
+      font-size: 1rem;
+    }
+
+@media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+  
+      .login-btn {
+        width: 100%;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      footer {
+        padding: 1rem;
+      }
+    }
+   
+  </style>
+</head>
+<body>
+  <header>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <img src="images/logo.jpg" alt="Samra Logo" class="logo">
+      <nav>
+        <ul class="nav-list">
+          <li><a href="index.html">Home Page</a></li>
+          <li><a href="map.html">View Map</a></li>
+          <li>
+            Stories ▾
+            <ul class="dropdown">
+              <li><a href="popular-stories.html">Popular Stories</a></li>
+              <li><a href="riyadh-library.html">Riyadh Library</a></li>
+              <li><a href="dhahran-library.html">ash sharqiyah Library</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+      <a href="creator-login.html">
+        <button class="login-btn">Log in As Creator</button>
+      </a>
+      <a href="admin-login.html">
+        <button class="login-btn">Log in As Admin</button>
+      </a>
+    </div>
+  </header>
+  >
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+ <div id="container"></div>
+
+ <div class="select-container" id="admin-containor" style="display: none;">
+  <select id="citySelector">
+    <option value="sa-ri">Riyadh</option>
+    <option value="sa-jz">Jazan</option>
+    <option value="sa-md">Madina</option>
+    <option value="sa-sh">Ash Sharqiyah</option>
+    <option value="sa-tb">Tabuk</option>
+    <option value="sa-nj">Najran</option>
+    <option value="sa-mk">Makkah</option>
+    <option value="sa-ha">Hail</option>
+    <option value="sa-qs">Al Quassim</option>
+    <option value="sa-jf">Al Jawf</option>
+    <option value="sa-as">Asir</option>
+    <option value="sa-hs">Al Hudud ash Shamaliyah</option>
+    <option value="sa-ba">Al Bahah</option>
+    
+    <!-- Add more cities here -->
+  </select>
+  <button class="action-btn" onclick="addCity()">Add City</button>
+  <button class="action-btn" onclick="removeCity()">Remove City</button>
+</div>
+
+ 
+
+<footer style="background-color: #4b2c2c; color: white; padding: 2rem 1rem;">
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 2rem;">
+
+    <!-- Company Info -->
+    <div style="flex: 1 1 200px;">
+      <h4 style="color: #facc15;">Samra</h4>
+      <p>Digitally preserving Saudi Arabia's oral heritage through community storytelling and cultural events.</p>
+    </div>
+
+    <!-- Products -->
+    <div style="flex: 1 1 150px;">
+      <h4 style="color: #facc15;">Libraries</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li><a href="riyadh-library.html" style="color: white; text-decoration: none;">Riyadh</a></li>
+        <li><a href="dhahran-library.html" style="color: white; text-decoration: none;">Ash Sharqiyah</a></li>
+        <li><a href="popular-stories.html" style="color: white; text-decoration: none;">Popular Stories</a></li>
+      </ul>
+    </div>
+
+    <!-- Useful Links -->
+    <div style="flex: 1 1 150px;">
+      <h4 style="color: #facc15;">Useful Links</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li><a href="map.html" style="color: white; text-decoration: none;">View Map</a></li>
+        <li><a href="creator-login.html" style="color: white; text-decoration: none;">Creator Login</a></li>
+        <li><a href="admin-login.html" style="color: white; text-decoration: none;">Admin Login</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact -->
+    <div style="flex: 1 1 200px;">
+      <h4 style="color: #facc15;">Contact</h4>
+      <p>📍 Dhahran, Saudi Arabia</p>
+      <p>✉ info@samra.org</p>
+      <p>📞 +966 500 000 000</p>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-top: 2rem; border-top: 1px solid #aa7f5c; padding-top: 1rem;">
+    &copy; 2025 Samra. All rights reserved.
+  </div>
+</footer>
+
+  <script>
+    (async () => {
+      const topology = await fetch(
+        'https://code.highcharts.com/mapdata/countries/sa/sa-all.topo.json'
+      ).then(response => response.json());
+  
+      const regionLinks = {
+        'Ar Riyad': 'riyadh-library.html',
+        'Ash Sharqiyah': 'dhahran-library.html'
+      };
+  
+      Highcharts.mapChart('container', {
+        chart: {
+          map: topology
+        },
+  
+        title: { text: 'Map of Saudi Arabia' },
+        subtitle: { text: '' },
+  
+        mapNavigation: { enabled: false },
+  
+        tooltip: { enabled: false },
+  
+        legend: { enabled: false },
+  
+        exporting: { enabled: false },
+  
+        colorAxis: {
+          min: 0,
+          minColor: '#d9a6a1', // light maroon
+          maxColor: '#d9a6a1'
+        },
+  
+        series: [{
+          data: [
+            ['sa-4293', 1], ['sa-tb', 1], ['sa-jz', 1], ['sa-nj', 1],
+            ['sa-ri', 1], ['sa-md', 1], ['sa-ha', 1], ['sa-qs', 1],
+            ['sa-hs', 1], ['sa-jf', 1], ['sa-sh', 1], ['sa-ba', 1],
+            ['sa-as', 1], ['sa-mk', 1]
+          ],
+          name: 'Regions',
+          states: {
+            hover: {
+              color: '#800000' // dark maroon on hover
+            }
+          },
+          dataLabels: {
+            enabled: true,
+            format: '{point.name}',
+            style: {
+              fontWeight: 'bold',
+              color: '#333'
+            }
+          },
+          point: {
+            events: {
+              click: function () {
+                const link = regionLinks[this.name];
+                if (link) window.location.href = link;
+              }
+            }
+          }
+        }]
+      });
+    })();
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        const userRole = localStorage.getItem("userRole");
+        const fullName = localStorage.getItem("fullName") || "Creator"; // fallback
+
+        // --- Update Header
+        if (isLoggedIn && userRole) {
+          const headerButtons = document.querySelector('header > div:last-child');
+          let dashboardLink = "#";
+          let roleName = "User";
+
+          if (userRole === "creator") {
+            dashboardLink = "creator-dashboard.html";
+            roleName = fullName;
+          }
+          else if (userRole === "admin") {
+            dashboardLink = "admin-dashboard.html";
+            roleName = fullName; // Admin doesn't need full name
+          }
+
+          headerButtons.innerHTML = `
+        <span style="font-weight: bold; color: #8b0000;">Welcome, ${roleName}</span>
+        <a href="${dashboardLink}" style="text-decoration: none;">
+          <button class="login-btn" style="display: flex; align-items: center; gap: 0.4rem;">
+            <span style="font-size: 1.1rem;">👤</span> My Account
+          </button>
+        </a>
+        <button class="login-btn" onclick="logout()">Log Out</button>
+      `;
+        }
+
+  });
+
+  function logout() {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userRole");
+    location.reload();
+  }
+  </script>
+
+<script>
+  function logoutConfirmation() {
+    const confirmed = confirm("Are you sure you want to log out?");
+    if (confirmed) {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userRole");
+      window.location.href = "index.html";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        const userRole = localStorage.getItem("userRole");
+        const fullName = localStorage.getItem("fullName") || "Creator"; // fallback
+
+        // --- Update Header
+        if (isLoggedIn && userRole) {
+          const headerButtons = document.querySelector('header > div:last-child');
+          let dashboardLink = "#";
+          let roleName = "User";
+
+          if (userRole === "creator") {
+            dashboardLink = "creator-dashboard.html";
+            roleName = fullName;
+          }
+          else if (userRole === "admin") {
+            dashboardLink = "admin-dashboard.html";
+            roleName = fullName; // Admin doesn't need full name
+          }
+
+          headerButtons.innerHTML = `
+        <span style="font-weight: bold; color: #8b0000;">Welcome, ${roleName}</span>
+        <a href="${dashboardLink}" style="text-decoration: none;">
+          <button class="login-btn" style="display: flex; align-items: center; gap: 0.4rem;">
+            <span style="font-size: 1.1rem;">👤</span> My Account
+          </button>
+        </a>
+        <button class="login-btn" onclick="logout()">Log Out</button>
+      `;
+        }
+
+  });
+</script>
+  
+</body>
+</html>
+
+

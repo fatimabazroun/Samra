@@ -1,0 +1,13 @@
+# Environment variables — never commit
+.env
+
+# Node modules
+node_modules/
+Backend/
+
+# Claude Code session data
+.claude/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,11 +1,12 @@
 // server.js
+require('dotenv').config();
 const multer = require('multer');
 const express = require('express');
 const mongoose = require('mongoose');
 const Story = require('./models/Story');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
-const path = require('path'); // ✅ You need this
+const path = require('path');
 
 const app = express();
 app.use(express.json());
@@ -13,50 +14,34 @@ app.use(cors());
 
 
 
-// Serve uploaded images statically
-app.use('/images', express.static(path.join(__dirname, 'images')));
+// Serve static frontend files from /public
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Multer storage config
+// Multer — upload images into public/images so the frontend can reference them
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'images/');
-  },
-  filename: function (req, file, cb) {
+  destination: (req, file, cb) => cb(null, path.join(__dirname, 'public', 'images')),
+  filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
-    const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
-    cb(null, uniqueName);
+    cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`);
   }
 });
 
-const upload = multer({ storage: storage });
-
-
-
-// Serve static files (HTML, CSS, JS)
-app.use(express.static(path.join(__dirname, 'Project-Final222', 'Project')));
-
-
-
-app.use('/images', express.static('images')); // serve images publicly
+const upload = multer({ storage });
 
 app.post('/upload', upload.single('image'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: '❌ No image uploaded.' });
-  }
-
-  const imageUrl = `/images/${req.file.filename}`;
-  res.status(200).json({ message: '✅ Image uploaded successfully!', imageUrl });
+  if (!req.file) return res.status(400).json({ message: '❌ No image uploaded.' });
+  res.status(200).json({ message: '✅ Image uploaded!', imageUrl: `/images/${req.file.filename}` });
 });
 
-//  Serve homepage fallback
+// SPA fallback — serve index.html for any unknown route
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'Project-Final222', 'Project', 'Homepage.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://s202177910:Jh8fqzKEmGkA0frd@samra.9k24g4e.mongodb.net/?retryWrites=true&w=majority&appName=Samra', {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })

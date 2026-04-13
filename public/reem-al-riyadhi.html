@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="icon.png">
+
+    <title>Growing up in Riyadh</title>
+    <style>
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .login-btn {
+                width: 100%;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            footer {
+                padding: 1rem;
+            }
+            
+            .story-header {
+                flex-direction: column;
+            }
+            
+            .story-image {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 5/7;
+            }
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #fdf8f3;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e0c6b5;
+        }
+        
+        .logo {
+            height: 40px;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav ul li {
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: black;
+        }
+        
+        nav ul li:hover, nav ul li:hover > a {
+            color: #8b0000;
+        }
+        
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #ccc;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: none;
+            min-width: 150px;
+            z-index: 1000;
+        }
+        
+        .nav-list li:hover .dropdown {
+            display: block;
+        }
+        
+        .dropdown li {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .dropdown li:hover {
+            background-color: #f7f7f7;
+            color: #8b0000;
+        }
+
+        .login-btn {
+            padding: 0.4rem 1rem;
+            border: 2px solid #8b0000;
+            background: white;
+            color: #8b0000;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #8b0000;
+            color: white;
+        }
+        
+        .content {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .story-header {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+        
+        .story-image {
+            width: 250px;
+            height: 350px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .story-info {
+            flex: 1;
+        }
+        
+        .story-title {
+            font-size: 28px;
+            margin: 0 0 20px 0;
+            color: #222;
+        }
+        
+        .story-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .story-content {
+            line-height: 1.6;
+            margin-bottom: 25px;
+            padding-top: 15px;
+        }
+        
+        .read-btn {
+            background-color: #8e44ad;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            display: block;
+            width: 150px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        
+        .read-btn:hover {
+            background-color: #7d3c98;
+        }
+        
+        .stats {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.stat-item {
+    display: block;
+}
+        
+        .author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.author-title {
+    font-size: 0.8em;
+    font-weight: normal;
+    color: #666;
+}
+        
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .author-name {
+            font-weight: bold;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .share-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .icon {
+            width: 24px;
+            height: 24px;
+            background-color: #eee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .icon:hover {
+            background-color: #ddd;
+        }
+        
+        .comments {
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        
+        .comment {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .comment-user {
+            font-weight: bold;
+        }
+        
+        .comment-time {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        footer {
+            background-color: #562e39;
+            color: white;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .footer-text {
+            text-align: center;
+            flex: 1 1 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .socials span {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <a href="index.html"><img src="images/logo.jpg" alt="Samra Logo" class="logo"></a>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="index.html">Home page</a></li>
+                    <li><a href="map.html">View Map</a></li>
+                    <li tabindex="0">
+                        Stories ▾
+                        <ul class="dropdown">
+                            <li><a href="popular-stories.html">Popular Stories</a></li>
+                            <li><a href="riyadh-library.html">Riyadh Library</a></li>
+                            <li><a href="dhahran-library.html">ash sharqiyah Library</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <a href="creator-login.html"><button class="login-btn">Log in As Creator</button></a>
+            <a href="admin-login.html"><button class="login-btn">Log in As Admin</button></a>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="story-header">
+            <div class="story-image">
+                <img src="images/story7.jpg" alt="Growing up in Riyadh">
+            </div>
+            <div class="story-info">
+                <h1 class="story-title">Growing up in Riyadh</h1>
+                
+                <div class="story-meta">
+                    <span>Written by: Reem Al-Riyadhi</span>
+                    <span>Published by: Ahmad Al-Ahmadi</span>
+                    <span>Genre: Personal Stories</span>
+                    <span>Region of Origin: Riyadh</span>
+                    <span>Word Count: 650</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="story-content">
+            <p>Insights from a youth in the capital city offer a glimpse into the vibrant and evolving life of Riyadh. As one of the fastest-growing cities in the Middle East, Riyadh is a place where tradition and modernity coexist, shaping the experiences of its residents—especially its youth.
+                
+                Growing up in Riyadh means waking up to the call to prayer echoing through the city, a reminder of the deep-rooted Islamic traditions that form the foundation of life here. The mornings are filled with the routine of school, where education is taken seriously as a pathway to success. Schools in Riyadh are diverse, offering both traditional and international curricula, preparing students for a future that blends Saudi heritage with global perspectives. Subjects like Arabic, Islamic studies, and history instill a sense of cultural identity, while science, technology, and foreign languages open doors to international opportunities.
+                
+                Evenings in Riyadh are a mix of social gatherings and leisure activities. The city offers endless options for entertainment, from exploring historical sites like Diriyah to visiting modern landmarks such as the Kingdom Centre Tower. The streets come alive at night, with families dining in traditional restaurants, sipping Arabic coffee, and enjoying the local cuisine. For the younger generation, Riyadh Park and Boulevard City provide a glimpse of the city’s modernization, with international brands, amusement parks, and cultural festivals shaping the urban experience. Sporting activities such as football, a beloved national pastime, bring together communities, whether in neighborhood matches or professional leagues.
+                
+                Despite its rapid transformation, Riyadh remains deeply connected to its traditions. The youth take pride in their cultural heritage, celebrating national events such as Saudi National Day with enthusiasm. Traditional dances like the Ardah are performed, and poetry, an essential part of Saudi culture, is still cherished. The city’s museums and cultural centers, such as the King Abdulaziz Historical Center, serve as reminders of the rich past that continues to inspire younger generations.
+                
+                Family plays an essential role in shaping life in Riyadh. Homes are places of warmth, where gatherings with extended relatives are frequent. Hospitality is a deeply ingrained value, and guests are always welcomed with dates and Arabic coffee. Weddings, religious holidays, and social events bring families together, reinforcing strong communal ties.
+                
+                For many, the city represents ambition and opportunity. With Vision 2030 shaping the country’s future, Riyadh is becoming a hub for innovation, attracting young entrepreneurs and professionals eager to contribute to the nation’s progress. From tech startups to creative industries, the capital city is a place where dreams are nurtured and possibilities seem endless. Government initiatives encourage youth participation in various sectors, and universities like King Saud University and Princess Nourah University equip students with the skills needed to excel in a rapidly changing world.
+                
+                The city is also a melting pot of cultures. As Saudi Arabia becomes more connected to the global stage, Riyadh welcomes expatriates and visitors, creating a dynamic environment where different perspectives meet. Events such as Riyadh Season showcase international entertainment, music, and cuisine, broadening the cultural experiences of its residents. The introduction of cinemas, concerts, and sports events has significantly reshaped the city’s social landscape.
+                
+                However, growing up in Riyadh also comes with challenges. The rapid pace of modernization sometimes creates a tension between tradition and contemporary influences. Youth must navigate expectations from family and society while exploring new aspirations. The city's extreme summer temperatures also shape daily life, with many activities moving indoors to malls and entertainment centers to escape the heat.
+                
+                Growing up in Riyadh is more than just living in a bustling capital—it is about experiencing the fusion of tradition and modernity, embracing cultural heritage while stepping into a promising future. It is a journey shaped by family, faith, and ambition, making Riyadh not just a city, but a way of life.
+                
+                
+            </p>                
+        </div>
+       
+        <div class="stats">
+          <div class="stat-item">👁️ Views: <span id="viewsCount">3000</span></div>
+          <div class="stat-item"><span id="likeIcon" onclick="toggleLike()" style="cursor: pointer;">❤️</span> Likes: <span id="likeCount">2087</span></div>
+          <div class="stat-item"><span class="icon" onclick="sharePage()" style="cursor: pointer;">📤</span></div>
+        </div>
+        
+        <div class="comments">
+          <h3>Comments</h3>
+          <input type="text" id="commentInput" placeholder="Write a comment..." style="width:70%; padding:5px;">
+          <button class="login-btn" onclick="addComment()">Post</button>
+          <div id="commentsList" style="margin-top: 15px;"></div>
+        </div>
+
+        <div class="author">
+            <div class="author-img">
+                <span>👤</span>
+            </div>
+            <div class="author-info">
+              <div class="author-name">
+                  Reem Al-Riyadhi
+                  <span id="followButton" style="margin-left: 10px; cursor: pointer; font-size: 18px;">
+                      ➕ Follow
+                  </span>
+              </div>
+              <div class="author-title">Student</div>
+          </div>
+          
+        </div>
+        
+       
+    
+    </div>
+
+    
+    <footer style="background-color: #4b2c2c; color: white; padding: 2rem 1rem;">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 2rem;">
+    
+        <!-- Company Info -->
+        <div style="flex: 1 1 200px;">
+          <h4 style="color: #facc15;">Samra</h4>
+          <p>Digitally preserving Saudi Arabia's oral heritage through community storytelling and cultural events.</p>
+        </div>
+    
+        <!-- Products -->
+        <div style="flex: 1 1 150px;">
+          <h4 style="color: #facc15;">Libraries</h4>
+          <ul style="list-style: none; padding: 0;">
+            <li><a href="riyadh-library.html" style="color: white; text-decoration: none;">Riyadh</a></li>
+            <li><a href="dhahran-library.html" style="color: white; text-decoration: none;">Ash Sharqiyah</a></li>
+            <li><a href="popular-stories.html" style="color: white; text-decoration: none;">Popular Stories</a></li>
+          </ul>
+        </div>
+    
+        <!-- Useful Links -->
+        <div style="flex: 1 1 150px;">
+          <h4 style="color: #facc15;">Useful Links</h4>
+          <ul style="list-style: none; padding: 0;">
+            <li><a href="map.html" style="color: white; text-decoration: none;">View Map</a></li>
+            <li><a href="creator-login.html" style="color: white; text-decoration: none;">Creator Login</a></li>
+            <li><a href="admin-login.html" style="color: white; text-decoration: none;">Admin Login</a></li>
+          </ul>
+        </div>
+    
+        <!-- Contact -->
+        <div style="flex: 1 1 200px;">
+          <h4 style="color: #facc15;">Contact</h4>
+          <p>📍 Dhahran, Saudi Arabia</p>
+          <p>✉ info@samra.org</p>
+          <p>📞 +966 500 000 000</p>
+        </div>
+      </div>
+    
+      <div style="text-align: center; margin-top: 2rem; border-top: 1px solid #aa7f5c; padding-top: 1rem;">
+        &copy; 2025 Samra. All rights reserved.
+      </div>
+    </footer>
+    
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const joinButtons = document.querySelectorAll(".card-content button");
+      joinButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          btn.classList.toggle("joined");
+          btn.textContent = btn.classList.contains("joined") ? "Joined" : "Join";
+        });
+      });
+  
+      const pageButtons = document.querySelectorAll(".pagination .page");
+      const allCards = document.querySelectorAll(".card");
+  
+      function showPage(page) {
+        allCards.forEach((card) => {
+          card.style.display = card.classList.contains(`page-${page}`) ? "block" : "none";
+        });
+        pageButtons.forEach((btn) => btn.classList.remove("active"));
+        document.querySelector(`.pagination .page[data-page="${page}"]`).classList.add("active");
+      }
+  
+      pageButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const page = btn.getAttribute("data-page");
+          showPage(page);
+        });
+      });
+  
+      document.querySelector(".prev").addEventListener("click", () => {
+        const current = document.querySelector(".pagination .page.active");
+        const prev = current.previousElementSibling?.dataset?.page;
+        if (prev) showPage(prev);
+      });
+  
+      document.querySelector(".next").addEventListener("click", () => {
+        const current = document.querySelector(".pagination .page.active");
+        const next = current.nextElementSibling?.dataset?.page;
+        if (next) showPage(next);
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const storiesItem = document.querySelector("nav ul li:nth-child(3)");
+      const dropdown = storiesItem.querySelector(".dropdown");
+  
+      storiesItem.addEventListener("mouseenter", () => {
+        dropdown.style.display = "block";
+      });
+  
+      storiesItem.addEventListener("mouseleave", () => {
+        dropdown.style.display = "none";
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const userRole = localStorage.getItem("userRole");
+
+  if (isLoggedIn && userRole === "creator") {
+    const headerButtons = document.querySelector('header > div:last-child');
+    headerButtons.innerHTML = `
+      <span style="font-weight: bold; color: #8b0000;">Welcome, Creator</span>
+  <a href="creator-dashboard.html" style="text-decoration: none;">
+    <button class="login-btn" style="display: flex; align-items: center; gap: 0.4rem;">
+      <span style="font-size: 1.1rem;">👤</span> My Account
+    </button>
+  </a>
+  <button class="login-btn" onclick="logout()">Log Out</button>
+`;
+  }
+
+
+
+  
+});
+
+function logout() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("userRole");
+  location.reload();
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const startReading = document.getElementById("startReading");
+    const startWriting = document.getElementById("startWriting");
+
+    if (startReading) {
+      startReading.addEventListener("click", function () {
+        window.location.href = "popular-stories.html";
+      });
+    }
+
+    if (startWriting) {
+      startWriting.addEventListener("click", function () {
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        if (isLoggedIn) {
+          window.location.href = "write-story.html";
+
+        }
+          if (!isLoggedIn) {
+      alert("⚠️ You must log in to write a story.");
+    }
+      });
+    }
+  });
+
+  </script>
+
+<script>
+  function logoutConfirmation() {
+    const confirmed = confirm("Are you sure you want to log out?");
+    if (confirmed) {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userRole");
+      window.location.href = "index.html";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        const userRole = localStorage.getItem("userRole");
+        const fullName = localStorage.getItem("fullName") || "Creator"; // fallback
+
+        // --- Update Header
+        if (isLoggedIn && userRole) {
+          const headerButtons = document.querySelector('header > div:last-child');
+          let dashboardLink = "#";
+          let roleName = "User";
+
+          if (userRole === "creator") {
+            dashboardLink = "creator-dashboard.html";
+            roleName = fullName;
+          }
+          else if (userRole === "admin") {
+            dashboardLink = "admin-dashboard.html";
+            roleName = fullName; // Admin doesn't need full name
+          }
+
+          headerButtons.innerHTML = `
+        <span style="font-weight: bold; color: #8b0000;">Welcome, ${roleName}</span>
+        <a href="${dashboardLink}" style="text-decoration: none;">
+          <button class="login-btn" style="display: flex; align-items: center; gap: 0.4rem;">
+            <span style="font-size: 1.1rem;">👤</span> My Account
+          </button>
+        </a>
+        <button class="login-btn" onclick="logout()">Log Out</button>
+      `;
+        }
+  });
+    </script>
+        <script src="main.js"></script>
+
+</body>
+</html>

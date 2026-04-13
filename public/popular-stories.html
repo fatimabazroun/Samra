@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="icon.png">
+  <title>Popular Stories - Samra</title>
+  <style>
+    body, html { margin:0; padding:0; font-family:'Segoe UI',sans-serif; background:#fdf8f3; min-height:100%; display:flex; flex-direction:column; }
+
+    header { background:white; padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #e0c6b5; flex-wrap:wrap; gap:0.5rem; }
+    .logo  { height:40px; }
+
+    nav ul { list-style:none; display:flex; gap:1.5rem; margin:0; padding:0; }
+    nav ul li { position:relative; font-weight:500; cursor:pointer; }
+    nav ul li a { text-decoration:none; color:black; }
+    nav ul li:hover, nav ul li:hover > a { color:#8b0000; }
+
+    .dropdown-toggle { background:none; border:none; font:inherit; font-weight:500; cursor:pointer; padding:0; color:inherit; }
+    .dropdown-toggle:hover { color:#8b0000; }
+    .dropdown { position:absolute; top:100%; left:0; background:white; border:1px solid #ccc; padding:0; margin:0; list-style:none; display:none; min-width:150px; z-index:1000; }
+    .has-dropdown:hover .dropdown { display:block; }
+    .has-dropdown:focus-within .dropdown { display:block; }
+    .dropdown li { padding:0.5rem 1rem; cursor:pointer; }
+    .dropdown li:hover { background:#f7f7f7; color:#8b0000; }
+    .dropdown li a { text-decoration:none; color:inherit; display:block; }
+
+    .login-btn { padding:0.4rem 1rem; border:2px solid #8b0000; background:white; color:#8b0000; border-radius:4px; font-weight:600; cursor:pointer; transition:all 0.3s; }
+    .login-btn:hover { background:#8b0000; color:white; }
+
+    .container { padding:2rem; flex:1; }
+
+    .filter-bar { display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:flex-end; margin-bottom:1.5rem; }
+    .search-bar { padding:0.4rem 0.8rem; border:2px solid #ccc; border-radius:5px; font-size:1rem; }
+    #filterType { background:#8b0000; color:white; border-color:#8b0000; }
+    #filterType option { background:white; color:black; }
+    #resetBtn  { padding:0.4rem 1rem; background:white; color:#8b0000; border:2px solid #8b0000; border-radius:6px; font-weight:bold; cursor:pointer; transition:all 0.3s; }
+    #resetBtn:hover { background:#8b0000; color:white; }
+
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; }
+
+    .card { background:#f5f3f2; border-radius:12px; overflow:hidden; box-shadow:0 5px 10px rgba(0,0,0,.05); transition:transform 0.3s; }
+    .card:hover { transform:translateY(-5px); }
+    .card img  { width:100%; height:180px; object-fit:cover; }
+    .card-link { text-decoration:none; color:inherit; display:block; }
+
+    .card-content { padding:1rem; }
+    .card-content strong { color:#8b0000; font-size:1.05rem; }
+    .card-content h4 { margin:0.4rem 0 0.2rem; font-size:1rem; }
+    .card-content p  { margin:0.2rem 0; color:#444; font-size:0.9rem; }
+    .card-content span { display:block; margin-top:0.4rem; color:#666; font-style:italic; font-size:0.875rem; }
+
+    .join-btn { margin-top:0.75rem; padding:0.4rem 1rem; background:transparent; color:#8b0000; border:2px solid #8b0000; border-radius:6px; font-weight:bold; cursor:pointer; transition:all 0.3s; }
+    .join-btn:hover, .join-btn.joined { background:#8b0000; color:white; }
+
+    footer { flex-shrink:0; }
+
+    @media (max-width:768px) {
+      header { flex-direction:column; align-items:flex-start; }
+      nav ul { flex-direction:column; gap:0.5rem; }
+      .login-btn { width:100%; }
+      .container { padding:1rem; }
+      .filter-bar { flex-direction:column; align-items:stretch; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <a href="index.html"><img src="images/logo.jpg" alt="Samra Logo" class="logo"></a>
+      <nav>
+        <ul class="nav-list">
+          <li><a href="index.html">Home page</a></li>
+          <li><a href="map.html">View Map</a></li>
+          <li class="has-dropdown">
+            <button class="dropdown-toggle">Stories ▾</button>
+            <ul class="dropdown">
+              <li><a href="popular-stories.html">Popular Stories</a></li>
+              <li><a href="riyadh-library.html">Riyadh Library</a></li>
+              <li><a href="dhahran-library.html">Ash Sharqiyah Library</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+      <!-- filled by shared.js -->
+    </div>
+  </header>
+
+  <div class="container">
+    <h2>What's Popular?</h2>
+
+    <div class="filter-bar">
+      <select id="filterType" class="search-bar" style="width:150px;">
+        <option value="all">All</option>
+        <option value="story">Stories</option>
+        <option value="event">Events</option>
+      </select>
+      <input type="text" id="searchInput" class="search-bar" placeholder="Search..." style="width:220px;">
+      <button id="resetBtn">Reset</button>
+    </div>
+
+    <!-- Cards rendered dynamically -->
+    <div class="cards" id="cardsGrid"></div>
+    <p id="noResults" style="display:none;color:#888;text-align:center;padding:2rem;">No stories match your search.</p>
+  </div>
+
+  <footer></footer>
+
+  <script src="stories-data.js"></script>
+  <script src="shared.js"></script>
+  <script>
+    const grid        = document.getElementById("cardsGrid");
+    const searchInput = document.getElementById("searchInput");
+    const filterType  = document.getElementById("filterType");
+    const noResults   = document.getElementById("noResults");
+    const resetBtn    = document.getElementById("resetBtn");
+
+    // Build all popular cards once
+    const popularStories = getPopularStories();
+
+    function renderCards() {
+      const text = searchInput.value.toLowerCase().trim();
+      const type = filterType.value; // "all" | "story" | "event"
+
+      const filtered = popularStories.filter(s => {
+        const matchesType   = type === "all" || s.type === type;
+        const matchesSearch = !text ||
+          s.title.toLowerCase().includes(text) ||
+          s.genre.toLowerCase().includes(text) ||
+          s.author.toLowerCase().includes(text);
+        return matchesType && matchesSearch;
+      });
+
+      grid.innerHTML = "";
+
+      if (filtered.length === 0) {
+        noResults.style.display = "block";
+        return;
+      }
+      noResults.style.display = "none";
+
+      filtered.forEach(story => {
+        grid.appendChild(buildStoryCard(story, true));
+      });
+    }
+
+    searchInput.addEventListener("input",  renderCards);
+    filterType.addEventListener("change",  renderCards);
+    resetBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      filterType.value  = "all";
+      renderCards();
+    });
+
+    // Initial render (shared.js DOMContentLoaded fires first then this runs)
+    document.addEventListener("DOMContentLoaded", renderCards);
+  </script>
+</body>
+</html>
